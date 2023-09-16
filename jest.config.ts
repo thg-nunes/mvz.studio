@@ -25,6 +25,8 @@ const config: Config = {
 
   // The test environment that will be used for testing
   testEnvironment: 'jest-environment-jsdom',
+
+  setupFiles: ['dotenv/config'],
 }
 
 export default createJestConfig(config)
