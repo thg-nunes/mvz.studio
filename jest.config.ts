@@ -14,6 +14,11 @@ const config: Config = {
   // An array of file extensions your modules use
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
 
+  moduleNameMapper: {
+    // '^axios$': require.resolve('axios'),
+    '^@app/(.*)$': '<rootDir>/src/app/$1',
+  },
+
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
 
