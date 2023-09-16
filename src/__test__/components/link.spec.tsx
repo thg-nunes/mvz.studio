@@ -1,6 +1,15 @@
+import { usePathname } from 'next/navigation'
 import { render, screen } from '@testing-library/react'
 
 import { LinkComponent } from '@app/components/link'
+
+jest.mock('next/navigation', () => {
+  return {
+    usePathname: jest.fn(),
+  }
+})
+
+const usePathnameMock = usePathname as jest.Mock
 
 describe('<Link />', () => {
   const pathName = 'Home'
@@ -33,5 +42,26 @@ describe('<Link />', () => {
 
     expect(screen.getByTestId('home-icon')).toBeInTheDocument()
     expect(screen.getByText(pathName)).toBeInTheDocument()
+  })
+
+  it('Should render icon and link with different colors when the actual pathname is equal to the property pathName received', () => {
+    usePathnameMock.mockReturnValueOnce('/home')
+
+    render(
+      <>
+        <LinkComponent linkIcon={<p />} pathName={pathName} />
+        <LinkComponent linkIcon={<p />} pathName={'Settings'} />
+      </>
+    )
+    const linksOnScreen = screen.getAllByText((content, element) => {
+      return element?.hasAttribute('href')
+    })
+
+    expect(linksOnScreen.length).toEqual(2)
+
+    expect(linksOnScreen[0].className).toEqual(
+      'flex items-center gap-2 text-cyan-600 border-r border-cyan-600'
+    )
+    // expect(linksOnScreen[0].className).toHaveStyle('bg-red-900')
   })
 })
