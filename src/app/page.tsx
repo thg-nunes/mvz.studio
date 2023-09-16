@@ -1,7 +1,5 @@
-export default function Home() {
-  return (
-    <main className="">
-      <h2>MVZ</h2>
-    </main>
-  )
+import { redirect } from 'next/navigation'
+
+export default function IndexPage() {
+  return redirect('/home')
 }
