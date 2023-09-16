@@ -17,6 +17,7 @@ const config: Config = {
   moduleNameMapper: {
     // '^axios$': require.resolve('axios'),
     '^@app/(.*)$': '<rootDir>/src/app/$1',
+    '^@components/(.*)$': '<rootDir>/src/app/components/$1',
   },
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
