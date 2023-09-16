@@ -13,6 +13,9 @@ const config: Config = {
         cyan: {
           500: '#00B9AE',
         },
+        orange: {
+          700: '#FF3232',
+        },
       },
     },
   },
