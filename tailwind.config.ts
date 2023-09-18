@@ -18,6 +18,9 @@ const config: Config = withMT({
           700: '#FF3232',
         },
       },
+      boxShadow: {
+        '3xl': '0px 0px 10px 5px rgb(0 0 0 / 1)',
+      },
     },
   },
   plugins: [],

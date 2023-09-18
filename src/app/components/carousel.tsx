@@ -1,0 +1,70 @@
+'use client'
+import { useState, useEffect } from 'react'
+import { Carousel, Typography } from '@material-tailwind/react'
+
+import { CarouselMoviePropsDTO, MovieDTO } from '@dtos/movie'
+import { fetchData } from '@app/services/fetch-data-config'
+
+import { returnsMovieURL } from '@utils/movieImage'
+
+export const Coursel = (): JSX.Element => {
+  const [movies, setMovies] = useState<CarouselMoviePropsDTO[]>([])
+
+  useEffect(() => {
+    async function fetchMovies() {
+      const { results } = await fetchData<{ results: MovieDTO[] }>('/discover/movie', {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      })
+      const movieCarouselList: CarouselMoviePropsDTO[] = results
+        .slice(0, 5)
+        .map(({ id, title, poster_path, overview }) => {
+          return {
+            id,
+            title,
+            poster_path,
+            overview: overview.slice(0, 149) + '...',
+          }
+        })
+      setMovies(movieCarouselList)
+    }
+
+    fetchMovies()
+  }, [])
+
+  return (
+    <div className="mx-auto h-[400px] w-[70%] py-12">
+      <Carousel className="carouselButton relative overflow-hidden rounded-3xl">
+        {movies.map(({ id, title, poster_path, overview }) => {
+          return (
+            <>
+              <img
+                src={returnsMovieURL(500, poster_path)}
+                alt={`imagem do filme ${title}`}
+                className="carouselElement h-full w-full object-cover"
+              />
+              <section
+                key={id}
+                className="absolute bottom-0 flex h-full w-full flex-col justify-between bg-gray-900/50 px-12 py-6 text-white shadow-2xl"
+              >
+                <div className="flex w-3/4 flex-col gap-2">
+                  <Typography className="top-0 text-4xl font-bold">{title}</Typography>
+                  <Typography>{overview}</Typography>
+                </div>
+                <div className="flex h-max justify-between font-bold">
+                  <button className="rounded-md bg-gray-600/50 p-2 px-4 text-base text-white hover:shadow-3xl hover:shadow-gray-600/70">
+                    +Watchlist
+                  </button>
+                  <button className="rounded-md bg-cyan-600 p-2 px-4 text-base text-black transition-all duration-150 hover:shadow-3xl hover:shadow-cyan-600/50">
+                    Assistir
+                  </button>
+                </div>
+              </section>
+            </>
+          )
+        })}
+      </Carousel>
+    </div>
+  )
+}

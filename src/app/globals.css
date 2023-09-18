@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .carouselElement {
+  }
+}
+
+@layer utilities {
+  .carouselButton button {
+    z-index: 2;
+  }
+
+  .carouselButton > div:last-child {
+    @apply bg-gray-500/50 p-2 rounded-lg;
+  }
+}
