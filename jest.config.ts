@@ -18,6 +18,8 @@ const config: Config = {
     // '^axios$': require.resolve('axios'),
     '^@app/(.*)$': '<rootDir>/src/app/$1',
     '^@components/(.*)$': '<rootDir>/src/app/components/$1',
+    '^@utils/(.*)$': '<rootDir>/src/app/utils/$1',
+    '^@dtos/(.*)$': '<rootDir>/src/app/dtos/$1',
   },
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
