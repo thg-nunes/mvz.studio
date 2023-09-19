@@ -4,7 +4,6 @@ import { CarouselMoviePropsDTO, MovieDTO } from '@dtos/movie'
 
 type ApiService = {
   fetchCarouselMovies(): Promise<CarouselMoviePropsDTO[]>
-  fetchPopularMovies(): Promise<MovieDTO[]>
   fetchMoviesByGenre(data: { genreID: number; page: number }): Promise<MovieDTO[]>
 }
 
@@ -45,15 +44,6 @@ const apiService: ApiService = {
       },
       `with_genres=${genreID}&page=${page}`
     )
-
-    return results
-  },
-  fetchPopularMovies: async function (): Promise<MovieDTO[]> {
-    const { results } = await fetchData<{ results: MovieDTO[] }>('/movie/popular', {
-      next: {
-        revalidate: 60 * 60 * 24 * 3, // 3 days
-      },
-    })
 
     return results
   },
