@@ -23,6 +23,7 @@ export const MoviesList = ({ genreId, listTitle }: MoviesListProps): JSX.Element
   const [activePage, setAvtivePage] = useState(1)
 
   const listMovies = useFetchMoviesByGenre(genreId, activePage)
+  const buttons = new Array(5).fill(null)
 
   return (
     <div className="flex flex-col gap-3 px-10 py-4">
@@ -54,56 +55,21 @@ export const MoviesList = ({ genreId, listTitle }: MoviesListProps): JSX.Element
             id={listTitle}
             className="mx-auto grid grid-cols-5 gap-3 font-semibold text-white"
           >
-            <button
-              className={
-                activePage === 1
-                  ? BUTTON_STYLE_CONFIG.active
-                  : BUTTON_STYLE_CONFIG.default
-              }
-              onClick={() => setAvtivePage(1)}
-            >
-              1
-            </button>
-            <button
-              className={
-                activePage === 2
-                  ? BUTTON_STYLE_CONFIG.active
-                  : BUTTON_STYLE_CONFIG.default
-              }
-              onClick={() => setAvtivePage(2)}
-            >
-              2
-            </button>
-            <button
-              className={
-                activePage === 3
-                  ? BUTTON_STYLE_CONFIG.active
-                  : BUTTON_STYLE_CONFIG.default
-              }
-              onClick={() => setAvtivePage(3)}
-            >
-              3
-            </button>
-            <button
-              className={
-                activePage === 4
-                  ? BUTTON_STYLE_CONFIG.active
-                  : BUTTON_STYLE_CONFIG.default
-              }
-              onClick={() => setAvtivePage(4)}
-            >
-              4
-            </button>
-            <button
-              className={
-                activePage === 5
-                  ? BUTTON_STYLE_CONFIG.active
-                  : BUTTON_STYLE_CONFIG.default
-              }
-              onClick={() => setAvtivePage(5)}
-            >
-              5
-            </button>
+            {buttons.map((_, index) => {
+              return (
+                <button
+                  key={`button-${index}`}
+                  className={
+                    activePage === index + 1
+                      ? BUTTON_STYLE_CONFIG.active
+                      : BUTTON_STYLE_CONFIG.default
+                  }
+                  onClick={() => setAvtivePage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              )
+            })}
           </div>
           <button
             onClick={() => setFirstFilms(5)}
