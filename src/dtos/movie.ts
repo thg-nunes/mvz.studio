@@ -15,6 +15,17 @@ export type MovieDTO = {
   vote_count: number
 }
 
+export type MovieDetailsDTO = Omit<MovieDTO, 'genre_ids'> & {
+  genres: {
+    id: number
+    name: string
+  }[]
+  production_companies: {
+    name: string
+  }[]
+  runtime: 150
+}
+
 export type CarouselMoviePropsDTO = Pick<
   MovieDTO,
   'id' | 'title' | 'poster_path' | 'overview'
