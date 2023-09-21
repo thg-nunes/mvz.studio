@@ -15,8 +15,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR">
       <body className={poppins.className}>
         <div className="flex">
-          <section className="h-screen w-[15%] border border-gray-100/10 bg-gray-900 py-4">
-            <p className="text-center font-bold text-white">MVZ.studio</p>
+          <section className="sticky top-0 h-screen w-[15%] border border-gray-100/10 bg-gray-900 py-4 pl-5">
+            <p className="mb-7 text-center font-bold text-white">MVZ.studio</p>
             <LinkComponent
               pathName="Home"
               linkIcon={
