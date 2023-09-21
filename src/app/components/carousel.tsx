@@ -30,9 +30,7 @@ export const Coursel = (): JSX.Element => {
                   <button className="rounded-md bg-gray-600/50 p-2 px-4 text-base text-white hover:shadow-3xl hover:shadow-gray-600/70">
                     +Watchlist
                   </button>
-                  <button className="rounded-md bg-cyan-600 p-2 px-4 text-base text-black transition-all duration-150 hover:shadow-3xl hover:shadow-cyan-600/50">
-                    Assistir
-                  </button>
+                  <button className="blueButton">Assistir</button>
                 </div>
               </section>
             </>
