@@ -34,6 +34,7 @@ export const MoviesList = ({ genreId, listTitle }: MoviesListProps): JSX.Element
           .map(({ id, overview, poster_path, title, vote_average }) => (
             <MovieCard
               key={id}
+              movie_id={id}
               movieDescription={overview}
               moviePathImage={poster_path}
               movieTitle={title}
