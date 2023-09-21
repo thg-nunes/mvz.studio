@@ -5,6 +5,13 @@
 @layer components {
   .carouselElement {
   }
+
+  .blueButton {
+    @apply rounded-md bg-cyan-600 p-2 px-4 text-base text-black transition-all duration-150 hover:shadow-3xl hover:shadow-cyan-600/50;
+  }
+  .orangeButton {
+    @apply rounded-xl bg-orange-700 p-1 px-2 text-xs font-semibold text-white hover:bg-orange-700/80;
+  }
 }
 
 @layer utilities {
@@ -15,4 +22,20 @@
   .carouselButton > div:last-child {
     @apply bg-gray-500/50 p-2 rounded-lg;
   }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #555;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
 }
