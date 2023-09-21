@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Image from 'next/image'
 import { FaStar } from 'react-icons/fa'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -5,6 +6,7 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { returnsMovieURL } from '@utils/movieImage'
 
 export type MovieCardProps = {
+  movie_id: number
   movieTitle: string
   voteAvarege: number
   moviePathImage: string
@@ -13,6 +15,7 @@ export type MovieCardProps = {
 
 export const MovieCard = ({
   movieTitle = '',
+  movie_id,
   movieDescription = '',
   moviePathImage,
   voteAvarege,
@@ -44,9 +47,9 @@ export const MovieCard = ({
             {voteAvarege}
             <FaStar className="text-[10px] text-yellow-500" />
           </span>
-          <button className="rounded-xl bg-orange-700 p-1 px-2 text-xs font-semibold text-white">
+          <Link href={`/detalhes/${movie_id}`} className="orangeButton">
             assistir
-          </button>
+          </Link>
         </div>
       </section>
     </div>
