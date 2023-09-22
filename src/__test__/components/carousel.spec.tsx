@@ -1,15 +1,14 @@
 import { render, screen } from '@testing-library/react'
 
-import { useFetchCarouselMoviesCarouseslList } from '@app/hooks/components/carousel'
+import { useFetchCarouselMoviesList } from '@app/hooks/components/carousel'
 import { Coursel } from '@app/components/carousel'
 
 jest.mock('@app/hooks/components/carousel', () => {
   return {
-    useFetchCarouselMoviesCarouseslList: jest.fn(),
+    useFetchCarouselMoviesList: jest.fn(),
   }
 })
-const useFetchCarouselMoviesCarouseslListMock =
-  useFetchCarouselMoviesCarouseslList as jest.Mock
+const useFetchCarouselMoviesListMock = useFetchCarouselMoviesList as jest.Mock
 
 const carouselMoviesList = [
   {
@@ -53,7 +52,7 @@ const carouselMoviesList = [
 
 describe('<Coursel />', () => {
   beforeEach(() => {
-    useFetchCarouselMoviesCarouseslListMock.mockReturnValue({
+    useFetchCarouselMoviesListMock.mockReturnValue({
       movies: carouselMoviesList,
     })
   })

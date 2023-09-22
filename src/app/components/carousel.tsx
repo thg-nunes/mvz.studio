@@ -2,10 +2,10 @@
 import { Carousel, Typography } from '@material-tailwind/react'
 
 import { returnsMovieURL } from '@utils/movieImage'
-import { useFetchCarouselMoviesCarouseslList } from '@app/hooks/components/carousel'
+import { useFetchCarouselMoviesList } from '@app/hooks/components/carousel'
 
 export const Coursel = (): JSX.Element => {
-  const { movies } = useFetchCarouselMoviesCarouseslList()
+  const { movies } = useFetchCarouselMoviesList()
 
   return (
     <div className="mx-auto h-[400px] w-[70%] py-12">

@@ -4,7 +4,7 @@ import { BsCalendarCheckFill } from 'react-icons/bs'
 import { AiFillEye, AiFillClockCircle, AiFillCheckCircle } from 'react-icons/ai'
 
 import { returnsMovieURL } from '@utils/movieImage'
-import { useFetchMovieDetails } from '@app/hooks/components/pages/detalhes/[movie_id]'
+import { useFetchMovieDetails } from '@app/hooks/pages/detalhes/[movie_id]'
 
 import { MoviesList } from '@app/components/moviesList'
 import Link from 'next/link'
