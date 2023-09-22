@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { CarouselMoviePropsDTO } from '@dtos/movie'
 import { apiService } from '@app/services/api'
 
-const useFetchCarouselMoviesCarouseslList = () => {
+const useFetchCarouselMoviesList = () => {
   const [movies, setMovies] = useState<CarouselMoviePropsDTO[]>([])
 
   useEffect(() => {
@@ -18,4 +18,4 @@ const useFetchCarouselMoviesCarouseslList = () => {
   return { movies }
 }
 
-export { useFetchCarouselMoviesCarouseslList }
+export { useFetchCarouselMoviesList }
