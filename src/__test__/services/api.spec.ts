@@ -151,4 +151,41 @@ describe('apiService', () => {
 
     await waitFor(() => expect(response).toEqual(moviesList))
   })
+
+  it('Ensures that the fetchMovieDetailsById service get the infors of a movie by your id', async () => {
+    const fakeMovieDetail = {
+      adult: false,
+      backdrop_path: '/55Rb9qt3yzyF4KQpC1c3T3Fbcao.jpg',
+      id: 1008042,
+      original_language: 'en',
+      original_title: 'Talk to Me',
+      overview:
+        'When a group of friends discover how to conjure spirits using an embalmed hand, they become hooked on the new thrill, until one of them goes too far and unleashes terrifying supernatural forces.',
+      popularity: 3538.457,
+      poster_path: '/kdPMUMJzyYAc4roD52qavX0nLIC.jpg',
+      release_date: '2023-07-26',
+      title: 'Talk to Me',
+      video: false,
+      vote_average: 7.3,
+      vote_count: 613,
+      genres: [
+        {
+          id: 123,
+          name: 'fake_genre',
+        },
+      ],
+      production_companies: [
+        {
+          name: 'fake_production_companie',
+        },
+      ],
+      runtime: 150,
+    }
+
+    fetchDataMock.mockResolvedValueOnce(fakeMovieDetail)
+
+    const fakeMovieDetailResponse = await apiService.fetchMovieDetailsById('82')
+
+    await waitFor(() => expect(fakeMovieDetailResponse).toEqual(fakeMovieDetail))
+  })
 })

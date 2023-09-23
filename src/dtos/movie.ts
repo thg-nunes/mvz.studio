@@ -23,7 +23,7 @@ export type MovieDetailsDTO = Omit<MovieDTO, 'genre_ids'> & {
   production_companies: {
     name: string
   }[]
-  runtime: 150
+  runtime: number
 }
 
 export type CarouselMoviePropsDTO = Pick<
