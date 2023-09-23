@@ -122,4 +122,33 @@ describe('apiService', () => {
     const response = await apiService.fetchCarouselMovies()
     await waitFor(() => expect(response.length).toEqual(moviesList.length - 1))
   })
+
+  it('Ensures that the fetchMoviesByGenre service returns a movies list per page', async () => {
+    fetchDataMock.mockImplementationOnce(() =>
+      Promise.resolve({
+        results: moviesList,
+      })
+    )
+
+    const page = 2
+    const genreID = 52
+    const requestCacheConfig = {
+      next: {
+        revalidate: 60 * 60 * 24 * 3, // 3 days
+      },
+    }
+    const moviesOfANewPage = `with_genres=${genreID}&page=${page}`
+
+    const response = await apiService.fetchMoviesByGenre({ page, genreID })
+
+    await waitFor(() =>
+      expect(fetchDataMock).toHaveBeenCalledWith(
+        `/discover/movie`,
+        requestCacheConfig,
+        moviesOfANewPage
+      )
+    )
+
+    await waitFor(() => expect(response).toEqual(moviesList))
+  })
 })
