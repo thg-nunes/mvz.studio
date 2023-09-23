@@ -10,7 +10,6 @@ export const useFetchMovieDetails = async (
   const movieDetails = await apiService.fetchMovieDetailsById(movie_id)
   movieDetails.release_date = new Date(movieDetails.release_date).toLocaleDateString()
   movieDetails.popularity = parseInt(movieDetails.popularity.toFixed(0))
-  movieDetails.popularity = parseInt(movieDetails.popularity.toFixed(0))
   movieDetails.vote_average = parseInt(movieDetails.vote_average.toFixed(0))
 
   return { movieDetails, movieVideoKey }
