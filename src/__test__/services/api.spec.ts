@@ -188,4 +188,20 @@ describe('apiService', () => {
 
     await waitFor(() => expect(fakeMovieDetailResponse).toEqual(fakeMovieDetail))
   })
+
+  it('Ensures that the fetchMovieVideoById service get the infors of a movie video by your id', async () => {
+    fetchDataMock.mockResolvedValueOnce({
+      results: [
+        {
+          key: 'fake_movie_video_key',
+        },
+      ],
+    })
+
+    const fake_movie_video_key = await apiService.fetchMovieVideoById('82')
+
+    await waitFor(() =>
+      expect(fake_movie_video_key.results[0]).toEqual({ key: 'fake_movie_video_key' })
+    )
+  })
 })
