@@ -204,4 +204,12 @@ describe('apiService', () => {
       expect(fake_movie_video_key.results[0]).toEqual({ key: 'fake_movie_video_key' })
     )
   })
+
+  it('Ensures that the fetchMoviesById service get the infors of many movies by your id', async () => {
+    const fakeMoviesIds = [1, 2, 3]
+
+    apiService.fetchMoviesById(fakeMoviesIds)
+
+    await waitFor(() => expect(fetchData).toHaveBeenCalledTimes(3))
+  })
 })
