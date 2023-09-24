@@ -7,6 +7,7 @@ type ApiService = {
   fetchMoviesByGenre(data: { genreID: number; page: number }): Promise<MovieDTO[]>
   fetchMovieDetailsById(movieId: string): Promise<MovieDetailsDTO>
   fetchMovieVideoById(movieId: string): Promise<{ results: { key: string }[] }>
+  fetchMoviesById(moviesId: number[]): Promise<{ results: MovieDetailsDTO[] }>
 }
 
 const apiService: ApiService = {
@@ -71,6 +72,23 @@ const apiService: ApiService = {
     )
 
     return movieDetails
+  },
+  fetchMoviesById: async function (
+    moviesId: number[]
+  ): Promise<{ results: MovieDetailsDTO[] }> {
+    const moviesRequestConfig = moviesId.map((id) => {
+      return fetchData<MovieDetailsDTO>(`/movie/${id}`, {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      })
+    })
+
+    const response = await Promise.all(moviesRequestConfig)
+
+    return {
+      results: response,
+    }
   },
 }
 
