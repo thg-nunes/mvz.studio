@@ -18,7 +18,7 @@ const config: Config = {
     // '^axios$': require.resolve('axios'),
     '^@app/(.*)$': '<rootDir>/src/app/$1',
     '^@components/(.*)$': '<rootDir>/src/app/components/$1',
-    '^@utils/(.*)$': '<rootDir>/src/app/utils/$1',
+    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@hooks/(.*)$': '<rootDir>/src/app/hooks/$1',
     '^@dtos/(.*)$': '<rootDir>/src/app/dtos/$1',
   },
