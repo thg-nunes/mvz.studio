@@ -1,4 +1,4 @@
-import { AppError } from './appErrorr'
+import { myToast } from './toast-config'
 
 const whatchlistKey = process.env.NEXT_PUBLIC_WHATCH_LIST as string
 
@@ -8,7 +8,7 @@ export const addMovieOnWhatchList = (movieId: number) => {
   const movieIddExists = whathlistMoviesId.find((id) => id === movieId)
 
   if (movieIddExists) {
-    throw new AppError('Você já adicionou esse filme a sua lista')
+    myToast({ type: 'error', message: 'Você já adicionou esse filme a sua lista' })
   }
 
   localStorage.setItem(whatchlistKey, JSON.stringify([...whathlistMoviesId, movieId]))
