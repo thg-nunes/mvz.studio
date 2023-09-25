@@ -22,8 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex">
           <section className="sticky top-0 h-screen w-[15%] border border-gray-100/10 bg-gray-900 py-4 pl-5">
             <p className="mb-7 text-center font-bold text-white">MVZ.studio</p>
-            <LinkComponent pathName="Home" linkIcon={<AiFillHome />} />
-            <LinkComponent pathName="Whatch-List" linkIcon={<LuListPlus />} />
+            <div>
+              <p className="font-semibold text-white">Menu</p>
+              <LinkComponent pathName="Home" linkIcon={<AiFillHome />} />
+              <LinkComponent pathName="Whatch-List" linkIcon={<LuListPlus />} />
+            </div>
           </section>
           {children}
         </main>
