@@ -1,13 +1,13 @@
+import Link from 'next/link'
 import { FaStar } from 'react-icons/fa'
 import { MdBlockFlipped } from 'react-icons/md'
 import { BsCalendarCheckFill } from 'react-icons/bs'
 import { AiFillEye, AiFillClockCircle, AiFillCheckCircle } from 'react-icons/ai'
 
-import { returnsMovieURL } from '@utils/movieImage'
+import { returnsMovieImageURL } from '@utils/movieImage'
 import { useFetchMovieDetails } from '@app/hooks/pages/detalhes/[movie_id]'
 
 import { MoviesList } from '@app/components/moviesList'
-import Link from 'next/link'
 
 export type MovieDetailsProps = {
   params: {
@@ -26,10 +26,10 @@ export default async function MovieDetails({
   const { movieDetails, movieVideoKey } = await useFetchMovieDetails(movie_id)
 
   return (
-    <div>
+    <>
       <div className="mx-auto h-[400px] w-[70%] overflow-hidden rounded-3xl">
         <img
-          src={returnsMovieURL(500, movieDetails.poster_path)}
+          src={returnsMovieImageURL(500, movieDetails.poster_path)}
           alt={`imagem do filme ${movieDetails.title}`}
           className="carouselElement h-full w-full object-cover"
         />
@@ -105,6 +105,6 @@ export default async function MovieDetails({
           listTitle={movieDetails.genres[index].name}
         />
       ))}
-    </div>
+    </>
   )
 }

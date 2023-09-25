@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { FaStar } from 'react-icons/fa'
 
-import { returnsMovieURL } from '@utils/movieImage'
+import { returnsMovieImageURL } from '@utils/movieImage'
 import { AddWhatchListButton } from './addWhatchListButton'
 
 export type MovieCardProps = {
@@ -31,7 +31,7 @@ export const MovieCard = ({
       <Image
         width={180}
         height={180}
-        src={returnsMovieURL(500, moviePathImage)}
+        src={returnsMovieImageURL(500, moviePathImage)}
         alt={`imagem de capa do filme ${movieTitle}`}
       />
       <AddWhatchListButton movieId={movie_id} />

@@ -1,7 +1,7 @@
 'use client'
 import { Carousel, Typography } from '@material-tailwind/react'
 
-import { returnsMovieURL } from '@utils/movieImage'
+import { returnsMovieImageURL } from '@utils/movieImage'
 import { useFetchCarouselMoviesList } from '@app/hooks/components/carousel'
 
 export const Coursel = (): JSX.Element => {
@@ -14,7 +14,7 @@ export const Coursel = (): JSX.Element => {
           return (
             <>
               <img
-                src={returnsMovieURL(500, poster_path)}
+                src={returnsMovieImageURL(500, poster_path)}
                 alt={`imagem do filme ${title}`}
                 className="carouselElement h-full w-full object-cover"
               />
