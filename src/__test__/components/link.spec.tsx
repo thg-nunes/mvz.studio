@@ -60,8 +60,7 @@ describe('<Link />', () => {
     expect(linksOnScreen.length).toEqual(2)
 
     expect(linksOnScreen[0].className).toEqual(
-      'flex items-center gap-2 text-cyan-600 border-r border-cyan-600'
+      'flex items-center gap-2 py-2 group/link relative text-cyan-600 border-r border-cyan-600'
     )
-    // expect(linksOnScreen[0].className).toHaveStyle('bg-red-900')
   })
 })
