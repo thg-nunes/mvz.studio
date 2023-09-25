@@ -1,8 +1,11 @@
 import './globals.css'
+import 'react-toastify/dist/ReactToastify.css'
+
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import { AiFillHome } from 'react-icons/ai'
 import { LuListPlus } from 'react-icons/lu'
+import { ToastContainer } from 'react-toastify'
 
 import { LinkComponent } from '@components/link'
 
@@ -28,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <LinkComponent pathName="Whatch-List" linkIcon={<LuListPlus />} />
             </div>
           </section>
+          <ToastContainer />
           {children}
         </main>
       </body>
