@@ -3,7 +3,7 @@ import { MoviesList } from '@app/components/moviesList'
 
 export default async function HomePage() {
   return (
-    <main className="right-0 w-[85%] bg-black">
+    <section className="right-0 w-[85%] bg-black">
       <Coursel />
 
       <MoviesList listTitle="Ação" genreId={28} />
@@ -13,6 +13,6 @@ export default async function HomePage() {
       <MoviesList listTitle="Crime" genreId={80} />
       <MoviesList listTitle="Documentário" genreId={99} />
       <MoviesList listTitle="Drama" genreId={18} />
-    </main>
+    </section>
   )
 }
