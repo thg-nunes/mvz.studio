@@ -1,4 +1,7 @@
+import { myToast } from '@utils/toast-config'
 import { addMovieOnWhatchList } from '@utils/movieOnWhatchList'
+
+jest.mock('@utils/toast-config')
 
 describe('addMovieOnWhatchList', () => {
   it('Ensures that the function to add an movieID in movie list on localStorage execute correctly', () => {
@@ -17,15 +20,17 @@ describe('addMovieOnWhatchList', () => {
     )
   })
 
-  it('', () => {
+  it('Ensures that an toast with an error message is render if an movieId already exists in localStorageList', () => {
     const setItemMock = jest.fn()
     const getItemMock = jest.fn()
 
     Storage.prototype.getItem = getItemMock.mockReturnValueOnce(JSON.stringify([123]))
     Storage.prototype.setItem = setItemMock
+    addMovieOnWhatchList(123)
 
-    expect(() => addMovieOnWhatchList(123)).toThrow(
-      'Você já adicionou esse filme a sua lista'
-    )
+    expect(myToast).toHaveBeenCalledWith({
+      type: 'error',
+      message: 'Você já adicionou esse filme a sua lista',
+    })
   })
 })
