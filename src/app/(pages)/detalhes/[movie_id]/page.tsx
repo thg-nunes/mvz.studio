@@ -8,10 +8,21 @@ import { returnsMovieImageURL } from '@utils/movieImage'
 import { useFetchMovieDetails } from '@app/hooks/pages/detalhes/[movie_id]'
 
 import { MoviesList } from '@app/components/moviesList'
+import { Metadata } from 'next'
 
 export type MovieDetailsProps = {
   params: {
     movie_id: string
+  }
+}
+
+export const generateMetadata = async ({
+  params,
+}: MovieDetailsProps): Promise<Metadata> => {
+  const { movieDetails } = await useFetchMovieDetails(params.movie_id)
+
+  return {
+    title: movieDetails.title,
   }
 }
 

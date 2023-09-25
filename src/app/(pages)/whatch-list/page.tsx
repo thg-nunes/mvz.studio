@@ -1,6 +1,11 @@
 import { AiFillHeart } from 'react-icons/ai'
 
 import { MoviesSection } from './moviesSection'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Lista de favoritos',
+}
 
 export default function WhatchListPage() {
   return (
