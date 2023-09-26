@@ -22,7 +22,7 @@ export const generateMetadata = async ({
   const { movieDetails } = await useFetchMovieDetails(params.movie_id)
 
   return {
-    title: movieDetails.title,
+    title: '| Filme: ' + movieDetails.title,
   }
 }
 

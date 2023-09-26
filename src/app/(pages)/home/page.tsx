@@ -1,5 +1,10 @@
+import { Metadata } from 'next'
 import { Coursel } from '@app/components/carousel'
 import { MoviesList } from '@app/components/moviesList'
+
+export const metadata: Metadata = {
+  title: '| Home',
+}
 
 export default async function HomePage() {
   return (

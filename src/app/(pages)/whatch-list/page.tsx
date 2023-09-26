@@ -4,7 +4,7 @@ import { MoviesSection } from './moviesSection'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Lista de favoritos',
+  title: '| Lista de favoritos',
 }
 
 export default function WhatchListPage() {
