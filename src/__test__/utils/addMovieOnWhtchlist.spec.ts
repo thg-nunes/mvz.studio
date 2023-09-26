@@ -1,6 +1,7 @@
+import { waitFor } from '@testing-library/react'
+
 import { myToast } from '@utils/toast-config'
 import { addMovieOnWhatchList, deleteMovieFromWhatchList } from '@utils/movieOnWhatchList'
-import { waitFor } from '@testing-library/react'
 
 jest.mock('@utils/toast-config')
 
@@ -19,6 +20,10 @@ describe('@utils/movieOnWhatchList functions', () => {
       process.env.NEXT_PUBLIC_WHATCH_LIST,
       JSON.stringify([123])
     )
+    expect(myToast).toHaveBeenCalledWith({
+      type: 'success',
+      message: 'Filme adiciona na sua lista.',
+    })
   })
 
   it('Ensures that an toast with an error message is render if an movieId already exists in localStorageList', () => {
