@@ -4,7 +4,7 @@ import { AiFillClockCircle } from 'react-icons/ai'
 import { BsCalendarCheckFill } from 'react-icons/bs'
 
 import { returnsMovieImageURL } from '@utils/movieImage'
-import { getMoviesFromStorage } from '@utils/movieOnWhatchList'
+import { deleteMovieFromWhatchList, getMoviesFromStorage } from '@utils/movieOnWhatchList'
 
 import { useGetMoviesById } from '@app/hooks/pages/whatch-list'
 
@@ -57,7 +57,15 @@ export const MoviesSection = (): JSX.Element => {
                 </p>
               </section>
             </div>
-            <button className="blueButton text-white">assistir</button>
+            <div className="flex items-center gap-3">
+              <button className="blueButton w-1/2 text-white">assistir</button>
+              <button
+                className="redButton w-1/2"
+                onClick={() => deleteMovieFromWhatchList(movie.id)}
+              >
+                remover da lista
+              </button>
+            </div>
           </section>
         </div>
       ))}
