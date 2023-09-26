@@ -13,6 +13,8 @@ export const addMovieOnWhatchList = (movieId: number) => {
   }
 
   localStorage.setItem(whatchlistKey, JSON.stringify([...whathlistMoviesId, movieId]))
+
+  return myToast({ type: 'success', message: 'Filme adiciona na sua lista.' })
 }
 
 export const getMoviesFromStorage = () => {
