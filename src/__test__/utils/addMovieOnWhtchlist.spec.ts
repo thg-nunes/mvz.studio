@@ -1,9 +1,10 @@
 import { myToast } from '@utils/toast-config'
-import { addMovieOnWhatchList } from '@utils/movieOnWhatchList'
+import { addMovieOnWhatchList, deleteMovieFromWhatchList } from '@utils/movieOnWhatchList'
+import { waitFor } from '@testing-library/react'
 
 jest.mock('@utils/toast-config')
 
-describe('addMovieOnWhatchList', () => {
+describe('@utils/movieOnWhatchList functions', () => {
   it('Ensures that the function to add an movieID in movie list on localStorage execute correctly', () => {
     const setItemMock = jest.fn()
     const getItemMock = jest.fn()
@@ -32,5 +33,29 @@ describe('addMovieOnWhatchList', () => {
       type: 'error',
       message: 'Você já adicionou esse filme a sua lista',
     })
+  })
+
+  it('Ensures that the function to remove an movieID in movie list on localStorage execute correctly', () => {
+    const fakeMovieIdInLocalStorage = 123
+
+    jest
+      .mocked(Storage.prototype.getItem)
+      .mockReturnValueOnce(JSON.stringify([123, 5295, 6485]))
+
+    deleteMovieFromWhatchList(fakeMovieIdInLocalStorage)
+
+    expect(Storage.prototype.getItem).toHaveBeenCalled()
+
+    expect(Storage.prototype.setItem).toHaveBeenCalledWith(
+      process.env.NEXT_PUBLIC_WHATCH_LIST,
+      JSON.stringify([5295, 6485])
+    )
+
+    expect(myToast).toHaveBeenCalledWith({
+      type: 'success',
+      message: 'Filme deletado da sua lista!',
+    })
+
+    waitFor(() => expect(window.location.reload).toHaveBeenCalled())
   })
 })
