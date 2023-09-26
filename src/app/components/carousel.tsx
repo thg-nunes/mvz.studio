@@ -1,10 +1,13 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import { Carousel, Typography } from '@material-tailwind/react'
 
 import { returnsMovieImageURL } from '@utils/movieImage'
 import { useFetchCarouselMoviesList } from '@app/hooks/components/carousel'
+import { addMovieOnWhatchList } from '@utils/movieOnWhatchList'
 
-export const Coursel = (): JSX.Element => {
+export const Caroursel = (): JSX.Element => {
+  const { push } = useRouter()
   const { movies } = useFetchCarouselMoviesList()
 
   return (
@@ -27,10 +30,15 @@ export const Coursel = (): JSX.Element => {
                   <Typography>{overview}</Typography>
                 </div>
                 <div className="flex h-max justify-between font-bold">
-                  <button className="rounded-md bg-gray-600/50 p-2 px-4 text-base text-white hover:shadow-3xl hover:shadow-gray-600/70">
+                  <button
+                    onClick={() => addMovieOnWhatchList(id)}
+                    className="rounded-md bg-gray-600/50 p-2 px-4 text-base text-white hover:shadow-3xl hover:shadow-gray-600/70"
+                  >
                     +Watchlist
                   </button>
-                  <button className="blueButton">Assistir</button>
+                  <button className="blueButton" onClick={() => push('/detalhes/' + id)}>
+                    Assistir
+                  </button>
                 </div>
               </section>
             </>
