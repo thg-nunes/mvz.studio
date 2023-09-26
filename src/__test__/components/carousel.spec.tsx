@@ -1,8 +1,19 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
+import { addMovieOnWhatchList } from '@utils/movieOnWhatchList'
 import { useFetchCarouselMoviesList } from '@app/hooks/components/carousel'
-import { Coursel } from '@app/components/carousel'
 
+import { Caroursel } from '@app/components/carousel'
+import { useRouter } from 'next/navigation'
+
+jest.mock('@utils/movieOnWhatchList')
+jest.mock('next/navigation', () => {
+  return {
+    useRouter: jest.fn().mockReturnValue({
+      push: jest.fn(),
+    }),
+  }
+})
 jest.mock('@app/hooks/components/carousel', () => {
   return {
     useFetchCarouselMoviesList: jest.fn(),
@@ -50,7 +61,7 @@ const carouselMoviesList = [
   },
 ]
 
-describe('<Coursel />', () => {
+describe('<Caroursel />', () => {
   beforeEach(() => {
     useFetchCarouselMoviesListMock.mockReturnValue({
       movies: carouselMoviesList,
@@ -58,7 +69,7 @@ describe('<Coursel />', () => {
   })
 
   it('Ensures that the all five movies is render on carousel', () => {
-    render(<Coursel />)
+    const { rerender } = render(<Caroursel />)
 
     expect(screen.getByText('Talk to Me')).toBeInTheDocument()
     expect(screen.getByText('Barbie')).toBeInTheDocument()
@@ -66,5 +77,15 @@ describe('<Coursel />', () => {
     expect(screen.getByText('Meg 2: The Trench')).toBeInTheDocument()
     expect(screen.getByText('The Nun II')).toBeInTheDocument()
     expect(screen.getByText('Kandahar')).toBeInTheDocument()
+
+    fireEvent.click(screen.getAllByText('+Watchlist')[0])
+
+    expect(addMovieOnWhatchList).toHaveBeenCalled()
+
+    rerender(<Caroursel />)
+
+    fireEvent.click(screen.getAllByText('Assistir')[0])
+
+    expect(useRouter().push).toHaveBeenCalledWith('/detalhes/' + carouselMoviesList[0].id)
   })
 })
