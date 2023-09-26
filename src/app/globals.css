@@ -12,6 +12,9 @@
   .orangeButton {
     @apply rounded-xl bg-orange-700 p-1 px-2 text-xs font-semibold text-white hover:bg-orange-700/80;
   }
+  .redButton {
+    @apply rounded-md bg-red-600 p-2 px-4 text-base text-white transition-all duration-150 hover:shadow-3xl hover:shadow-red-600/50;
+  }
 }
 
 @layer utilities {
