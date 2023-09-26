@@ -13,8 +13,8 @@ const poppins = Poppins({ subsets: ['latin'], weight: ['400', '600', '700'] })
 
 export const metadata: Metadata = {
   title: {
-    template: 'MVZ.studio - %s',
-    default: 'MVZ.studio | Home',
+    template: 'MVZ.studio %s',
+    default: 'MVZ.studio',
   },
 }
 
