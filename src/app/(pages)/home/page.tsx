@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { Coursel } from '@app/components/carousel'
+import { Caroursel } from '@app/components/carousel'
 import { MoviesList } from '@app/components/moviesList'
 
 export const metadata: Metadata = {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   return (
     <section className="right-0 w-[85%] bg-black">
-      <Coursel />
+      <Caroursel />
 
       <MoviesList listTitle="Ação" genreId={28} />
       <MoviesList listTitle="Aventura" genreId={12} />
