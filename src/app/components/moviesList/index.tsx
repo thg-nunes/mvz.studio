@@ -3,11 +3,14 @@
 import { useState } from 'react'
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
 
-import { MovieCard } from './movieCard'
+import { MovieDTO } from '@dtos/movie'
+
 import { useFetchMoviesByGenre } from '@app/hooks/components/moviesList'
+import { MovieListSection } from './movieListSection'
 
 export type MoviesListProps = {
-  genreId: number
+  genreId?: number
+  movies?: MovieDTO[]
   listTitle: string
 }
 
@@ -18,7 +21,11 @@ const BUTTON_STYLE_CONFIG = {
     'rounded-sm bg-cyan-600/70 px-2 transition-all duration-150 hover:bg-cyan-600/90 hover:shadow-3xl hover:shadow-cyan-600/50',
 }
 
-export const MoviesList = ({ genreId, listTitle }: MoviesListProps): JSX.Element => {
+export const MoviesList = ({
+  genreId = 0,
+  listTitle,
+  movies = [],
+}: MoviesListProps): JSX.Element => {
   const [firstFilms, setFirstFilms] = useState(5)
   const [activePage, setAvtivePage] = useState(1)
 
@@ -28,20 +35,11 @@ export const MoviesList = ({ genreId, listTitle }: MoviesListProps): JSX.Element
   return (
     <div className="flex flex-col gap-3 px-10 py-4">
       <p className="text-2xl font-semibold text-white">{listTitle}</p>
-      <section className="flex flex-wrap justify-between gap-y-6">
-        {listMovies
-          .slice(0, firstFilms)
-          .map(({ id, overview, poster_path, title, vote_average }) => (
-            <MovieCard
-              key={id}
-              movie_id={id}
-              movieDescription={overview}
-              moviePathImage={poster_path}
-              movieTitle={title}
-              voteAvarege={vote_average}
-            />
-          ))}
-      </section>
+      {movies.length > 0 ? (
+        <MovieListSection listMovies={movies} showMoviesLength={firstFilms} />
+      ) : (
+        <MovieListSection listMovies={listMovies} showMoviesLength={firstFilms} />
+      )}
       {firstFilms === 5 ? (
         <button
           onClick={() => setFirstFilms(listMovies.length)}

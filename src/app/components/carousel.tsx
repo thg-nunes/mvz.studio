@@ -15,7 +15,7 @@ export const Caroursel = (): JSX.Element => {
       <Carousel className="carouselButton relative overflow-hidden rounded-3xl">
         {movies.map(({ id, title, poster_path, overview }) => {
           return (
-            <>
+            <div key={`${id}-${title}`}>
               <img
                 src={returnsMovieImageURL(500, poster_path)}
                 alt={`imagem do filme ${title}`}
@@ -41,7 +41,7 @@ export const Caroursel = (): JSX.Element => {
                   </button>
                 </div>
               </section>
-            </>
+            </div>
           )
         })}
       </Carousel>
