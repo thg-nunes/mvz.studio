@@ -212,4 +212,52 @@ describe('apiService', () => {
 
     await waitFor(() => expect(fetchData).toHaveBeenCalledTimes(3))
   })
+
+  it('Ensures that the service to get the popular movies execute with the correct endpoint', async () => {
+    fetchDataMock.mockImplementation(() => {
+      return Promise.resolve({ results: [] })
+    })
+
+    await apiService.fetchPopularMovies()
+
+    await waitFor(() =>
+      expect(fetchDataMock).toHaveBeenCalledWith(`/movie/popular`, {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      })
+    )
+  })
+
+  it('Ensures that the service to get top rated tv shows execute with the correct endpoint', async () => {
+    fetchDataMock.mockImplementation(() => {
+      return Promise.resolve({ results: [] })
+    })
+
+    await apiService.fetchTopRatedTvShows()
+
+    await waitFor(() =>
+      expect(fetchDataMock).toHaveBeenCalledWith(`/tv/top_rated`, {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      })
+    )
+  })
+
+  it('Ensures that the service to get debut tv shows execute with the correct endpoint', async () => {
+    fetchDataMock.mockImplementation(() => {
+      return Promise.resolve({ results: [] })
+    })
+
+    await apiService.fetchDebutTvShows()
+
+    await waitFor(() =>
+      expect(fetchDataMock).toHaveBeenCalledWith(`/tv/airing_today`, {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      })
+    )
+  })
 })
