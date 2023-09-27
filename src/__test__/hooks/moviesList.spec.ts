@@ -20,7 +20,7 @@ jest.mock('@app/services/api', () => {
   }
 })
 
-const moviesList = [
+export const moviesList = [
   {
     adult: false,
     backdrop_path: '/55Rb9qt3yzyF4KQpC1c3T3Fbcao.jpg',
