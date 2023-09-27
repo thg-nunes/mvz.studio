@@ -18,5 +18,14 @@ describe('<RootLayout />', () => {
         )
       })
     ).toBeInTheDocument()
+
+    expect(
+      screen.getByText((content, element) => {
+        return (
+          element?.tagName.toLowerCase() === 'a' &&
+          element.getAttribute('href') === '/descubra'
+        )
+      })
+    ).toBeInTheDocument()
   })
 })

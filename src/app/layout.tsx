@@ -6,6 +6,7 @@ import { Poppins } from 'next/font/google'
 import { AiFillHome } from 'react-icons/ai'
 import { LuListPlus } from 'react-icons/lu'
 import { ToastContainer } from 'react-toastify'
+import { RiCompassDiscoverFill } from 'react-icons/ri'
 
 import { LinkComponent } from '@components/link'
 
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <p className="font-semibold text-white">Menu</p>
               <LinkComponent pathName="Home" linkIcon={<AiFillHome />} />
               <LinkComponent pathName="Whatch-List" linkIcon={<LuListPlus />} />
+              <LinkComponent pathName="Descubra" linkIcon={<RiCompassDiscoverFill />} />
             </div>
           </section>
           <ToastContainer />
