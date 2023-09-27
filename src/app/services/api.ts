@@ -8,6 +8,9 @@ type ApiService = {
   fetchMovieDetailsById(movieId: string): Promise<MovieDetailsDTO>
   fetchMovieVideoById(movieId: string): Promise<{ results: { key: string }[] }>
   fetchMoviesById(moviesId: number[]): Promise<{ results: MovieDetailsDTO[] }>
+  fetchPopularMovies(): Promise<{ results: MovieDTO[] }>
+  fetchTopRatedTvShows(): Promise<{ results: MovieDTO[] }>
+  fetchDebutTvShows(): Promise<{ results: MovieDTO[] }>
 }
 
 const apiService: ApiService = {
@@ -88,6 +91,39 @@ const apiService: ApiService = {
 
     return {
       results: response,
+    }
+  },
+  fetchPopularMovies: async function (): Promise<{ results: MovieDTO[] }> {
+    const { results } = await fetchData<{ results: MovieDTO[] }>(`/movie/popular`, {
+      next: {
+        revalidate: 60 * 60 * 24 * 3, // 3 days
+      },
+    })
+
+    return {
+      results,
+    }
+  },
+  fetchTopRatedTvShows: async function (): Promise<{ results: MovieDTO[] }> {
+    const { results } = await fetchData<{ results: MovieDTO[] }>(`/tv/top_rated`, {
+      next: {
+        revalidate: 60 * 60 * 24 * 3, // 3 days
+      },
+    })
+
+    return {
+      results,
+    }
+  },
+  fetchDebutTvShows: async function (): Promise<{ results: MovieDTO[] }> {
+    const { results } = await fetchData<{ results: MovieDTO[] }>(`/tv/airing_today`, {
+      next: {
+        revalidate: 60 * 60 * 24 * 3, // 3 days
+      },
+    })
+
+    return {
+      results,
     }
   },
 }
