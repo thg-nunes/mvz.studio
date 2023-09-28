@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   return (
-    <section className="right-0 w-[85%] bg-black">
+    <section className="pageContainer">
       <Caroursel />
 
       <MoviesList listTitle="Ação" genreId={28} />

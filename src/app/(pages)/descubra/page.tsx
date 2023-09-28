@@ -6,16 +6,16 @@ export default async function DiscoverPage() {
     await useFetchMoviesToDiscoverPage()
 
   return (
-    <div>
-      <h2>Discover</h2>
+    <div className="pageContainer">
+      <h2 className="px-10 text-2xl font-bold text-white">Discover</h2>
 
       {popularMovies.results.length && (
         <MoviesList movies={popularMovies.results} listTitle="Filmes Populares" />
       )}
-      {popularMovies.results.length && (
+      {popularTvShowsList.results.length && (
         <MoviesList movies={popularTvShowsList.results} listTitle="Séries de Tv" />
       )}
-      {popularMovies.results.length && (
+      {debutTvShowsList.results.length && (
         <MoviesList movies={debutTvShowsList.results} listTitle="Estréia essa semana" />
       )}
     </div>
