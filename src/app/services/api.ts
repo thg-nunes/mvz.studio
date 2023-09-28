@@ -1,6 +1,12 @@
+import { convertTvShowListToMovieDTOList } from '@utils/convertTvShowListToMovieDTOList'
 import { fetchData } from './fetch-data-config'
 
-import { CarouselMoviePropsDTO, MovieDTO, MovieDetailsDTO } from '@dtos/movie'
+import {
+  CarouselMoviePropsDTO,
+  MovieDTO,
+  MovieDetailsDTO,
+  TopRatedTVShowsPropsDTO,
+} from '@dtos/movie'
 
 type ApiService = {
   fetchCarouselMovies(): Promise<CarouselMoviePropsDTO[]>
@@ -105,25 +111,35 @@ const apiService: ApiService = {
     }
   },
   fetchTopRatedTvShows: async function (): Promise<{ results: MovieDTO[] }> {
-    const { results } = await fetchData<{ results: MovieDTO[] }>(`/tv/top_rated`, {
-      next: {
-        revalidate: 60 * 60 * 24 * 3, // 3 days
-      },
-    })
+    const { results } = await fetchData<{ results: TopRatedTVShowsPropsDTO[] }>(
+      `/tv/top_rated`,
+      {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      }
+    )
+
+    const listUpdated = convertTvShowListToMovieDTOList(results)
 
     return {
-      results,
+      results: listUpdated,
     }
   },
   fetchDebutTvShows: async function (): Promise<{ results: MovieDTO[] }> {
-    const { results } = await fetchData<{ results: MovieDTO[] }>(`/tv/airing_today`, {
-      next: {
-        revalidate: 60 * 60 * 24 * 3, // 3 days
-      },
-    })
+    const { results } = await fetchData<{ results: TopRatedTVShowsPropsDTO[] }>(
+      `/tv/airing_today`,
+      {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      }
+    )
+
+    const listUpdated = convertTvShowListToMovieDTOList(results)
 
     return {
-      results,
+      results: listUpdated,
     }
   },
 }
