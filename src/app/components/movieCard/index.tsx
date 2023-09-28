@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { FaStar } from 'react-icons/fa'
 
+import { ListTypeDTO } from '@dtos/movie'
 import { returnsMovieImageURL } from '@utils/movieImage'
 import { AddWhatchListButton } from './addWhatchListButton'
 
@@ -11,12 +12,14 @@ export type MovieCardProps = {
   voteAvarege: number
   moviePathImage: string
   movieDescription: string
+  listType: ListTypeDTO
 }
 
 export const MovieCard = ({
   movieTitle = '',
   movie_id,
   movieDescription = '',
+  listType,
   moviePathImage,
   voteAvarege,
 }: MovieCardProps): JSX.Element => {
@@ -45,7 +48,7 @@ export const MovieCard = ({
             {voteAvarege}
             <FaStar className="text-[10px] text-yellow-500" />
           </span>
-          <Link href={`/detalhes/${movie_id}`} className="orangeButton">
+          <Link href={`/detalhes/${listType}/${movie_id}`} className="orangeButton">
             assistir
           </Link>
         </div>

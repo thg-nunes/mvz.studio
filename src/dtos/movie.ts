@@ -40,3 +40,7 @@ export type TopRatedTVShowsPropsDTO = Omit<
   origin_country: string[]
   original_name: string
 }
+
+export type ListTypeDTO = {
+  listType: 'tv' | 'movie'
+}
