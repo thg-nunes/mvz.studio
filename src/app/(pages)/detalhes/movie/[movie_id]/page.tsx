@@ -112,6 +112,7 @@ export default async function MovieDetails({
       {movieDetails.genres.map((genre, index) => (
         <MoviesList
           key={genre.name}
+          listType="movie"
           genreId={movieDetails.genres[index].id}
           listTitle={movieDetails.genres[index].name}
         />
