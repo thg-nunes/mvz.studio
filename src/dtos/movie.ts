@@ -30,3 +30,13 @@ export type CarouselMoviePropsDTO = Pick<
   MovieDTO,
   'id' | 'title' | 'poster_path' | 'overview'
 >
+
+export type TopRatedTVShowsPropsDTO = Omit<
+  MovieDTO,
+  'video' | 'title' | 'release_date' | 'original_title' | 'adult'
+> & {
+  first_air_date: Date
+  name: string
+  origin_country: string[]
+  original_name: string
+}
