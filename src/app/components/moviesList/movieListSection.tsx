@@ -1,12 +1,14 @@
-import { MovieDTO } from '@dtos/movie'
+import { ListTypeDTO, MovieDTO } from '@dtos/movie'
 import { MovieCard } from '../movieCard'
 
 export type MovieListSectionProps = {
+  listType: ListTypeDTO
   showMoviesLength: number
   listMovies: MovieDTO[]
 }
 
 export const MovieListSection = ({
+  listType,
   listMovies,
   showMoviesLength,
 }: MovieListSectionProps): JSX.Element => {
@@ -18,6 +20,7 @@ export const MovieListSection = ({
           <MovieCard
             key={id}
             movie_id={id}
+            listType={listType}
             movieDescription={overview}
             moviePathImage={poster_path}
             movieTitle={title}

@@ -3,12 +3,13 @@
 import { useState } from 'react'
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
 
-import { MovieDTO } from '@dtos/movie'
+import { ListTypeDTO, MovieDTO } from '@dtos/movie'
 
 import { useFetchMoviesByGenre } from '@app/hooks/components/moviesList'
 import { MovieListSection } from './movieListSection'
 
 export type MoviesListProps = {
+  listType: ListTypeDTO
   genreId?: number
   movies?: MovieDTO[]
   listTitle: string
@@ -22,6 +23,7 @@ const BUTTON_STYLE_CONFIG = {
 }
 
 export const MoviesList = ({
+  listType,
   genreId = 0,
   listTitle,
   movies = [],
@@ -36,9 +38,17 @@ export const MoviesList = ({
     <div className="flex flex-col gap-3 px-10 py-4">
       <p className="text-2xl font-semibold text-white">{listTitle}</p>
       {movies.length > 0 ? (
-        <MovieListSection listMovies={movies} showMoviesLength={firstFilms} />
+        <MovieListSection
+          listMovies={movies}
+          listType={listType}
+          showMoviesLength={firstFilms}
+        />
       ) : (
-        <MovieListSection listMovies={listMovies} showMoviesLength={firstFilms} />
+        <MovieListSection
+          listMovies={listMovies}
+          listType={listType}
+          showMoviesLength={firstFilms}
+        />
       )}
       {firstFilms === 5 ? (
         <button
