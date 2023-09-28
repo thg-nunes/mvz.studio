@@ -41,6 +41,4 @@ export type TopRatedTVShowsPropsDTO = Omit<
   original_name: string
 }
 
-export type ListTypeDTO = {
-  listType: 'tv' | 'movie'
-}
+export type ListTypeDTO = 'tv' | 'movie'
