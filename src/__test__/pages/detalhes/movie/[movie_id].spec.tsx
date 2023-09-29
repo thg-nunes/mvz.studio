@@ -177,6 +177,6 @@ describe('<MovieDetails />', () => {
 
     await waitFor(() => expect(useFetchMovieDetails).toHaveBeenCalledWith('123'))
 
-    await waitFor(() => expect(title).toEqual('MVZ.studio | Filme: any_title'))
+    await waitFor(() => expect(title).toEqual('| Filme: any_title'))
   })
 })
