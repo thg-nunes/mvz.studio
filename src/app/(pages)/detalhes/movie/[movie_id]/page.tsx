@@ -26,11 +26,6 @@ export const generateMetadata = async ({
   }
 }
 
-const CLASSIFICATION_INDICATIVE_TEXT_STYLE = {
-  free: 'flex items-center gap-1 rounded-md bg-green-500 p-1 text-sm',
-  adult: 'flex items-center gap-1 rounded-md bg-red-500 p-1 text-sm',
-}
-
 export default async function MovieDetails({
   params: { movie_id },
 }: MovieDetailsProps): Promise<JSX.Element> {
@@ -74,9 +69,7 @@ export default async function MovieDetails({
           </p>
           <p
             className={
-              movieDetails.adult
-                ? CLASSIFICATION_INDICATIVE_TEXT_STYLE.adult
-                : CLASSIFICATION_INDICATIVE_TEXT_STYLE.free
+              movieDetails.adult ? 'classification-adult' : 'classification-free'
             }
           >
             {movieDetails.adult ? 'Somente adultos' : 'Classificação livre'}

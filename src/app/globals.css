@@ -5,6 +5,13 @@
 @layer components {
   .carouselElement {
   }
+  .classification-free {
+    @apply flex items-center gap-1 rounded-md bg-green-500 p-1 text-sm;
+  }
+
+  .classification-adult {
+    @apply flex items-center gap-1 rounded-md bg-red-500 p-1 text-sm;
+  }
 
   .pageContainer {
     @apply w-[85%] bg-black;
