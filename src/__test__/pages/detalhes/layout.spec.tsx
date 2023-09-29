@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import MovieDetailsLayout from '@app/(pages)/detalhes/[movie_id]/layout'
+import MovieDetailsLayout from '@app/(pages)/detalhes/layout'
 
 describe('<MovieDetailsLayout />', () => {
   it('Ensures that in movie details page has a link to back to home page', () => {
