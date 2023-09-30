@@ -16,7 +16,7 @@ export const SerieDetails = ({ serieData }: SerieDetailsProps): JSX.Element => {
         <div className="flex items-center gap-2">
           {serieData.genres.map(({ id, name }, index) => (
             <span key={id} className="text-sm">
-              {index > 0 && index < serieData.genres.length ? `${name}` : `${name}, `}
+              {index > 0 || index < serieData.genres.length ? `${name}` : `${name}, `}
             </span>
           ))}
         </div>
@@ -40,17 +40,21 @@ export const SerieDetails = ({ serieData }: SerieDetailsProps): JSX.Element => {
             : 'Este filme não possui um overview escrito.'}
         </p>
       </section>
-      <section className="flex items-center gap-3">
-        <img
-          src={returnsMovieImageURL(500, serieData.created_by[0].profile_path)}
-          alt={`foto do criador da série ${serieData.created_by[0].name}`}
-          className="h-12 w-12 rounded-full object-cover"
-        />
-        <p>
-          {serieData.created_by[0].name}
-          <span className="block text-center text-xs">criador</span>
-        </p>
-      </section>
+      {!!serieData.created_by.length && (
+        <section className="flex items-center gap-3">
+          {serieData.created_by[0].profile_path !== null && (
+            <img
+              src={returnsMovieImageURL(500, serieData.created_by[0].profile_path)}
+              alt={`foto do criador da série ${serieData.created_by[0].name}`}
+              className="h-12 w-12 rounded-full object-cover"
+            />
+          )}
+          <p>
+            {serieData.created_by[0].name}
+            <span className="block text-center text-xs">criador</span>
+          </p>
+        </section>
+      )}
     </div>
   )
 }

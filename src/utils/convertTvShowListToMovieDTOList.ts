@@ -8,7 +8,7 @@ export const convertTvShowListToMovieDTOList = (
       ...tvShow,
       adult: false,
       video: false,
-      release_date: new Date(tvShow.first_air_date).toISOString(),
+      release_date: new Date(tvShow.first_air_date).toLocaleDateString(),
       title: tvShow.name,
       original_title: tvShow.original_name,
     }
