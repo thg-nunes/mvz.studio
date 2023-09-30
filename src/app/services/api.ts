@@ -5,6 +5,7 @@ import {
   CarouselMoviePropsDTO,
   MovieDTO,
   MovieDetailsDTO,
+  TVSerieDetails,
   TopRatedTVShowsPropsDTO,
 } from '@dtos/movie'
 
@@ -17,6 +18,7 @@ type ApiService = {
   fetchPopularMovies(): Promise<{ results: MovieDTO[] }>
   fetchTopRatedTvShows(): Promise<{ results: MovieDTO[] }>
   fetchDebutTvShows(): Promise<{ results: MovieDTO[] }>
+  fetchTvShowDetails(tvSerieId: string): Promise<TVSerieDetails>
 }
 
 const apiService: ApiService = {
@@ -141,6 +143,15 @@ const apiService: ApiService = {
     return {
       results: listUpdated,
     }
+  },
+  fetchTvShowDetails: async function (tvSerieId: string): Promise<TVSerieDetails> {
+    const movieDetails = await fetchData<TVSerieDetails>(`/tv/${tvSerieId}`, {
+      next: {
+        revalidate: 60 * 60 * 24 * 3, // 3 days
+      },
+    })
+
+    return movieDetails
   },
 }
 
