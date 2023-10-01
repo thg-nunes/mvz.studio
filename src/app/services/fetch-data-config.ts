@@ -1,5 +1,5 @@
-const baseURL = process.env.NEXT_PUBLIC_TMDB_API_URL
-const api_key = process.env.NEXT_PUBLIC_TMDB_API_KEY
+export const baseURL = process.env.NEXT_PUBLIC_TMDB_API_URL
+export const api_key = process.env.NEXT_PUBLIC_TMDB_API_KEY
 
 export const fetchData = async <T>(
   path: string,

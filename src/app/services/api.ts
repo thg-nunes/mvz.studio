@@ -1,11 +1,12 @@
 import { convertTvShowListToMovieDTOList } from '@utils/convertTvShowListToMovieDTOList'
-import { fetchData } from './fetch-data-config'
+import { api_key, baseURL, fetchData } from './fetch-data-config'
 
 import {
   CarouselMoviePropsDTO,
   MovieDTO,
   MovieDetailsDTO,
   TVSerieDetails,
+  TVSerieImaesDTO,
   TopRatedTVShowsPropsDTO,
 } from '@dtos/movie'
 
@@ -19,6 +20,7 @@ type ApiService = {
   fetchTopRatedTvShows(): Promise<{ results: MovieDTO[] }>
   fetchDebutTvShows(): Promise<{ results: MovieDTO[] }>
   fetchTvShowDetails(tvSerieId: string): Promise<TVSerieDetails>
+  fetchTvShowImages(tvSerieId: string): Promise<{ backdrops: TVSerieImaesDTO }>
 }
 
 const apiService: ApiService = {
@@ -152,6 +154,21 @@ const apiService: ApiService = {
     })
 
     return movieDetails
+  },
+  fetchTvShowImages: async function (
+    tvSerieId: string
+  ): Promise<{ backdrops: TVSerieImaesDTO }> {
+    const response = await fetch(
+      `${baseURL}/tv/${tvSerieId}/images?&api_key=${api_key}`,
+      {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      }
+    )
+    const data: { backdrops: TVSerieImaesDTO } = await response.json()
+
+    return data
   },
 }
 

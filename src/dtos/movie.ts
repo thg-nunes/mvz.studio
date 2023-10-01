@@ -100,3 +100,7 @@ export type TVSerieDetails = Pick<
   vote_average: number
   vote_count: number
 }
+
+export type TVSerieImaesDTO = {
+  file_path: string
+}[]
