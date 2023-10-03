@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 
 import { apiService } from '@app/services/api'
-import { TVSerieDetails, TVSerieImaesDTO } from '@dtos/movie'
+import { SimilarTvShowCardDTO, TVSerieDetails, TVSerieImaesDTO } from '@dtos/movie'
 
 export const useFetchTVSerieDetails = async (
   tv_serie_id: string
@@ -18,4 +18,25 @@ export const useFetchTVSerieDetails = async (
   serieDetails.vote_average = parseInt(serieDetails.vote_average.toFixed(0)) * 10
 
   return { serieDetails, serieImages }
+}
+
+export const useFetchSimilarTVSeries = async (
+  tv_serie_id: string
+): Promise<{ similarTvSeries: SimilarTvShowCardDTO[] }> => {
+  const similarTvSeries = await apiService.fetchSimilarTvShow(tv_serie_id)
+
+  if (!similarTvSeries) {
+    notFound()
+  }
+
+  const listUpdated = similarTvSeries.map((serie) => {
+    return {
+      ...serie,
+      first_air_date: serie.first_air_date ? serie.first_air_date : 'sem data',
+      name: serie.name.slice(0, 10) + '...',
+      vote_average: parseInt((serie.vote_average * 10).toFixed(0)),
+    }
+  })
+
+  return { similarTvSeries: listUpdated }
 }
