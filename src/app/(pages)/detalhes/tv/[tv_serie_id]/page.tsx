@@ -1,10 +1,14 @@
 import Link from 'next/link'
 import { AiFillStar } from 'react-icons/ai'
 
-import { returnsMovieImageURL, returnsTVSerieImageURL } from '@utils/movieImage'
-import { useFetchTVSerieDetails } from '@app/hooks/pages/detalhes/tv/serie_id'
+import { returnsMovieImageURL } from '@utils/movieImage'
+import {
+  useFetchSimilarTVSeries,
+  useFetchTVSerieDetails,
+} from '@app/hooks/pages/detalhes/tv/serie_id'
 
 import { SerieDetails } from './serieDetails'
+import { TVSerieRecomendation } from '@app/components/tvSerieRecomendation'
 
 export default async function TvSerieDetailsById({
   params,
@@ -12,12 +16,14 @@ export default async function TvSerieDetailsById({
   params: { tv_serie_id: string }
 }) {
   const { serieDetails, serieImages } = await useFetchTVSerieDetails(params.tv_serie_id)
+  const { similarTvSeries } = await useFetchSimilarTVSeries(params.tv_serie_id)
+
   const lastSeason = serieDetails.seasons.pop()
   const numberOfLastSeason = lastSeason ? lastSeason.season_number + 1 : 1
   const lastAirDate = serieDetails.last_air_date.split('/').pop()
 
   return (
-    <div className="">
+    <div>
       <div className="relative h-[450px]">
         <img
           src={returnsMovieImageURL(500, serieDetails.backdrop_path)}
@@ -73,13 +79,12 @@ export default async function TvSerieDetailsById({
         </Link>
       </div>
 
-      {/* ADICIONAR AS INFORMAÇÕES GLOBAIS DA SERIE */}
-      <div></div>
-
-      {/* FAZER A GALERIA DE IMAGENS DA SERIE */}
-      <div className="mx-auto w-[85%] ">
-        <p className="font-semibold">Imagens da série</p>
-        <section className="flex overflow-x-scroll">
+      <div className="mx-auto w-[85%] py-6">
+        <p className="relative mb-3 w-max text-2xl font-semibold text-white">
+          Imagens da série
+          <span className="absolute bottom-0 left-0 w-1/5 border" />
+        </p>
+        <section className="scrollImageContainer flex overflow-x-scroll rounded-md">
           {!!serieImages.length &&
             serieImages.slice(0, 11).map((image) => {
               return (
@@ -93,8 +98,18 @@ export default async function TvSerieDetailsById({
         </section>
       </div>
 
-      {/* ADICIONA UMA LISTA DE RECOMENDAÇÕES */}
-      <div></div>
+      <div className="mx-auto w-[85%] py-6">
+        <p className="relative mb-3 w-max text-2xl font-semibold text-white">
+          Recomendaações
+          <span className="absolute bottom-0 left-0 w-1/5 border" />
+        </p>
+
+        <section className="scrollImageContainer flex gap-4 overflow-x-scroll">
+          {similarTvSeries.map((serie) => {
+            return <TVSerieRecomendation key={serie.name} similarTvShowCard={serie} />
+          })}
+        </section>
+      </div>
     </div>
   )
 }

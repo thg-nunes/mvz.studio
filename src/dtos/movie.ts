@@ -101,6 +101,11 @@ export type TVSerieDetails = Pick<
   vote_count: number
 }
 
+export type SimilarTvShowCardDTO = Pick<
+  TVSerieDetails,
+  'backdrop_path' | 'id' | 'first_air_date' | 'vote_average' | 'name'
+>
+
 export type TVSerieImaesDTO = {
   file_path: string
 }[]
