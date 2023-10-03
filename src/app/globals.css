@@ -26,6 +26,10 @@
   .redButton {
     @apply rounded-md bg-red-600 p-2 px-4 text-base text-white transition-all duration-150 hover:shadow-3xl hover:shadow-red-600/50;
   }
+
+  .scrollImageContainer::-webkit-scrollbar {
+    height: 8px;
+  }
 }
 
 @layer utilities {
