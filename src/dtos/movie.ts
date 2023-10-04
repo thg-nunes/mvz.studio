@@ -106,6 +106,17 @@ export type SimilarTvShowCardDTO = Pick<
   'backdrop_path' | 'id' | 'first_air_date' | 'vote_average' | 'name'
 >
 
+export type SerieSeasonsDTO = {
+  name: string
+  poster_path: string
+  air_date: string
+  episode_count: number
+  id: number
+  overview: string
+  season_number: number
+  vote_average: number
+}
+
 export type TVSerieImaesDTO = {
   file_path: string
 }[]

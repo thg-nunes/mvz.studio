@@ -5,6 +5,7 @@ import {
   CarouselMoviePropsDTO,
   MovieDTO,
   MovieDetailsDTO,
+  SerieSeasonsDTO,
   SimilarTvShowCardDTO,
   TVSerieDetails,
   TVSerieImaesDTO,
@@ -23,6 +24,7 @@ type ApiService = {
   fetchTvShowDetails(tvSerieId: string): Promise<TVSerieDetails>
   fetchSimilarTvShow(tvSerieId: string): Promise<SimilarTvShowCardDTO[]>
   fetchTvShowImages(tvSerieId: string): Promise<{ backdrops: TVSerieImaesDTO }>
+  fetchSerieSeason(serie_id: string): Promise<SerieSeasonsDTO[]>
 }
 
 const apiService: ApiService = {
@@ -185,6 +187,19 @@ const apiService: ApiService = {
     const data: { backdrops: TVSerieImaesDTO } = await response.json()
 
     return data
+  },
+  fetchSerieSeason: async function (serie_id: string): Promise<SerieSeasonsDTO[]> {
+    const { seasons } = await fetchData<{ seasons: SerieSeasonsDTO[] }>(
+      `/tv/${serie_id}`,
+      {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      },
+      'append_to_response=seasons'
+    )
+
+    return seasons
   },
 }
 
