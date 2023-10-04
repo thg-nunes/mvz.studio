@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Metadata } from 'next'
 import { AiFillStar } from 'react-icons/ai'
 
 import { returnsMovieImageURL } from '@utils/movieImage'
@@ -10,11 +11,19 @@ import {
 import { SerieDetails } from './serieDetails'
 import { TVSerieRecomendation } from '@app/components/tvSerieRecomendation'
 
-export default async function TvSerieDetailsById({
-  params,
-}: {
+type PageParams = {
   params: { tv_serie_id: string }
-}) {
+}
+
+export const generateMetadata = async ({ params }: PageParams): Promise<Metadata> => {
+  const { serieDetails } = await useFetchTVSerieDetails(params.tv_serie_id)
+
+  return {
+    title: ' - ' + serieDetails.name,
+  }
+}
+
+export default async function TvSerieDetailsById({ params }: PageParams) {
   const { serieDetails, serieImages } = await useFetchTVSerieDetails(params.tv_serie_id)
   const { similarTvSeries } = await useFetchSimilarTVSeries(params.tv_serie_id)
 
@@ -74,7 +83,10 @@ export default async function TvSerieDetailsById({
         </section>
 
         {/* LINK DA PAGINA DE MAIS TEMPORADAS, SEGUIR O MODELO: https://www.themoviedb.org/tv/1416-grey-s-anatomy/seasons?language=pt-BR */}
-        <Link href="/temporadas" className="text-white duration-150 hover:text-gray-400">
+        <Link
+          href={`/detalhes/tv/temporadas/${serieDetails.id}`}
+          className="text-white duration-150 hover:text-gray-400"
+        >
           mostrar mais temporadas
         </Link>
       </div>
