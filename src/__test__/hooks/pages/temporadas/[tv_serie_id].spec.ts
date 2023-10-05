@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { apiService } from '@app/services/api'
 import { useFetchSerieSeason } from '@app/hooks/pages/temporadas/[tv_serie_id]'
 import { waitFor } from '@testing-library/react'
+import { returnsDateInWriting } from '@utils/date-formate'
 
 jest.mock('next/navigation')
 jest.mock('@app/services/api')
@@ -38,5 +39,20 @@ describe('useFetchSerieSeason', () => {
     const response = await useFetchSerieSeason('1')
 
     await waitFor(() => expect(response[0].air_date).toEqual('Ano não informado'))
+  })
+
+  it('Ensures that the air_date has a wrriting date value if your value of api is valid', async () => {
+    jest.mocked(apiService.fetchSerieSeason).mockResolvedValueOnce([fake_serie_season])
+
+    const [year, month, day] = fake_serie_season.air_date.split('-')
+    const writingDate = returnsDateInWriting(
+      parseInt(year),
+      parseInt(month, 10),
+      parseInt(day, 10)
+    )
+
+    const response = await useFetchSerieSeason('1')
+
+    await waitFor(() => expect(response[0].air_date).toEqual(writingDate))
   })
 })
