@@ -9,7 +9,7 @@ jest.mock('@app/services/api')
 
 describe('useFetchSerieSeason', () => {
   const fake_serie_season = {
-    air_date: 'fake_air_date',
+    air_date: '2023-08-10',
     episode_count: 1,
     id: 1,
     vote_average: 8.8,
@@ -25,5 +25,18 @@ describe('useFetchSerieSeason', () => {
     await useFetchSerieSeason('1')
 
     await waitFor(() => expect(notFound).toHaveBeenCalled())
+  })
+
+  it('Ensures that the air_date has a default value if your value of api is empty', async () => {
+    jest.mocked(apiService.fetchSerieSeason).mockResolvedValueOnce([
+      {
+        ...fake_serie_season,
+        air_date: '',
+      },
+    ])
+
+    const response = await useFetchSerieSeason('1')
+
+    await waitFor(() => expect(response[0].air_date).toEqual('Ano não informado'))
   })
 })
