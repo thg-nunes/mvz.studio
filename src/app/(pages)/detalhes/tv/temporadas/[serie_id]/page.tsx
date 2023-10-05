@@ -13,7 +13,7 @@ export default async function TVSerieSeasons({
     <div className="mx-auto mb-10 flex w-[85%] flex-col gap-3 text-white">
       {seasons.map((season) => (
         <section key={season.id} className="flex gap-3">
-          <Link href={`/tv/${params.serie_id}/season/${season.id}`}>
+          <Link href={`/detalhes/tv/${params.serie_id}/season/${season.season_number}`}>
             <img
               src={returnsMovieImageURL(500, season.poster_path)}
               alt={`imagem do filme ${season.name}`}
@@ -23,7 +23,7 @@ export default async function TVSerieSeasons({
           <div className="flex flex-col justify-around">
             <section className="flex flex-col gap-2 text-xs font-semibold">
               <Link
-                href={`/tv/${params.serie_id}/season/${season.id}`}
+                href={`/detalhes/tv/${params.serie_id}/season/${season.season_number}`}
                 className="w-max duration-150 hover:text-gray-400"
               >
                 <p className="text-2xl font-semibold">{season.name}</p>
