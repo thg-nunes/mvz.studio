@@ -341,4 +341,40 @@ describe('apiService', () => {
     )
     await waitFor(() => expect(backdrops.length).toEqual(3))
   })
+
+  it('Ensures that the service to get the seasons of one serie with the correct endpoint', async () => {
+    const fake_response = [
+      {
+        name: 'fake_season_name',
+        poster_path: 'fake_poster_path',
+        air_date: 'fake_air_date',
+        episode_count: 1,
+        id: 123,
+        overview: 'fake_overview',
+        season_number: 1,
+        vote_average: 8.8,
+      },
+    ]
+
+    fetchDataMock.mockImplementationOnce(() =>
+      Promise.resolve({ seasons: fake_response })
+    )
+
+    const fakeId = '123'
+    const endpoint = `/tv/${fakeId}`
+    const response = await apiService.fetchSerieSeason(fakeId)
+
+    await waitFor(() =>
+      expect(fetchDataMock).toHaveBeenCalledWith(
+        endpoint,
+        {
+          next: {
+            revalidate: 60 * 60 * 24 * 3, // 3 days
+          },
+        },
+        'append_to_response=seasons'
+      )
+    )
+    await waitFor(() => expect(response.length).toEqual(fake_response.length))
+  })
 })
