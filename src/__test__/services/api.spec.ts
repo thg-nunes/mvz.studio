@@ -1,7 +1,7 @@
 import { waitFor } from '@testing-library/react'
 
 import { apiService } from '@app/services/api'
-import { fetchData } from '@app/services/fetch-data-config'
+import { api_key, baseURL, fetchData } from '@app/services/fetch-data-config'
 
 jest.mock('@app/services/fetch-data-config')
 const fetchDataMock = fetchData as jest.Mock
@@ -259,5 +259,24 @@ describe('apiService', () => {
         },
       })
     )
+  })
+
+  it('Ensures that the service to get the tv show details with the correct endpoint', async () => {
+    const fake_response = {
+      movieDetails: 'fake_detail',
+    }
+    fetchDataMock.mockImplementationOnce(() => Promise.resolve(fake_response))
+
+    const fakeId = '123'
+    const response = await apiService.fetchTvShowDetails(fakeId)
+
+    await waitFor(() =>
+      expect(fetchDataMock).toHaveBeenCalledWith('/tv/' + fakeId, {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      })
+    )
+    await waitFor(() => expect(response).toEqual(fake_response))
   })
 })
