@@ -314,4 +314,31 @@ describe('apiService', () => {
     )
     await waitFor(() => expect(response.length).toEqual(2))
   })
+
+  it('Ensures that the service to get the list of paths of images of one tv show with the correct endpoint', async () => {
+    const fake_response = [
+      {
+        file_path: 'fake_file_path1',
+      },
+      { file_path: 'fake_file_path2' },
+      { file_path: 'fake_file_path3' },
+    ]
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({ backdrops: fake_response }),
+    })
+
+    const fakeId = '123'
+    const endpoint = `${baseURL}/tv/${fakeId}/images?&api_key=${api_key}`
+    const { backdrops } = await apiService.fetchTvShowImages(fakeId)
+
+    await waitFor(() =>
+      expect(fetch).toHaveBeenCalledWith(endpoint, {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      })
+    )
+    await waitFor(() => expect(backdrops.length).toEqual(3))
+  })
 })
