@@ -7,10 +7,12 @@ import {
   MovieDetailsDTO,
   SerieSeasonsDTO,
   SimilarTvShowCardDTO,
+  TVSeasonDetailsDTO,
   TVSerieDetails,
   TVSerieImaesDTO,
   TopRatedTVShowsPropsDTO,
 } from '@dtos/movie'
+import { SeasonDetailsPageParams } from '@app/(pages)/detalhes/tv/[tv_serie_id]/season/[season_number]/page'
 
 type ApiService = {
   fetchCarouselMovies(): Promise<CarouselMoviePropsDTO[]>
@@ -24,7 +26,8 @@ type ApiService = {
   fetchTvShowDetails(tvSerieId: string): Promise<TVSerieDetails>
   fetchSimilarTvShow(tvSerieId: string): Promise<SimilarTvShowCardDTO[]>
   fetchTvShowImages(tvSerieId: string): Promise<{ backdrops: TVSerieImaesDTO }>
-  fetchSerieSeason(serie_id: string): Promise<SerieSeasonsDTO[]>
+  fetchSerieSeason(season_number: string): Promise<SerieSeasonsDTO[]>
+  fetchTVSeasonDetails(data: SeasonDetailsPageParams): Promise<TVSeasonDetailsDTO>
 }
 
 const apiService: ApiService = {
@@ -200,6 +203,20 @@ const apiService: ApiService = {
     )
 
     return seasons
+  },
+  fetchTVSeasonDetails: async function ({
+    params: { season_number, tv_serie_id },
+  }: SeasonDetailsPageParams): Promise<TVSeasonDetailsDTO> {
+    const response = await fetchData<TVSeasonDetailsDTO>(
+      `/tv/${tv_serie_id}/season/${season_number}`,
+      {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      }
+    )
+
+    return response
   },
 }
 
