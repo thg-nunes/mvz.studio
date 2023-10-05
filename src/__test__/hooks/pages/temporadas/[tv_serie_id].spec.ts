@@ -55,4 +55,20 @@ describe('useFetchSerieSeason', () => {
 
     await waitFor(() => expect(response[0].air_date).toEqual(writingDate))
   })
+
+  it('Ensures that the overview has default value if your value of api is empty', async () => {
+    jest.mocked(apiService.fetchSerieSeason).mockResolvedValueOnce([
+      {
+        ...fake_serie_season,
+        air_date: '',
+        overview: '',
+      },
+    ])
+
+    const response = await useFetchSerieSeason('1')
+
+    await waitFor(() =>
+      expect(response[0].overview).toEqual('Esta série não contém um overview escrito.')
+    )
+  })
 })
