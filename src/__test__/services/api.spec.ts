@@ -279,4 +279,39 @@ describe('apiService', () => {
     )
     await waitFor(() => expect(response).toEqual(fake_response))
   })
+
+  it('Ensures that the service to get the similar tv shows list with the correct endpoint', async () => {
+    const fake_response = [
+      {
+        backdrop_path: 'fake_backdrop_path1',
+        id: 123,
+        first_air_date: 'fake_first_air_date1',
+        vote_average: 8.8,
+        name: 'fake_name1',
+      },
+      {
+        backdrop_path: 'fake_backdrop_path2',
+        id: 223,
+        first_air_date: 'fake_first_air_date2',
+        vote_average: 8.3,
+        name: 'fake_name2',
+      },
+    ]
+
+    fetchDataMock.mockImplementationOnce(() =>
+      Promise.resolve({ results: fake_response })
+    )
+
+    const fakeId = '123'
+    const response = await apiService.fetchSimilarTvShow(fakeId)
+
+    await waitFor(() =>
+      expect(fetchDataMock).toHaveBeenCalledWith(`/tv/${fakeId}/similar`, {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      })
+    )
+    await waitFor(() => expect(response.length).toEqual(2))
+  })
 })
