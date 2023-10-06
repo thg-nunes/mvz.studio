@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { deleteMovieFromWhatchList } from '@utils/movieOnWhatchList'
 import { useGetMoviesById } from '@app/hooks/pages/whatch-list'
 
-import WhatchListPage from '@app/(pages)/whatch-list/page'
+import WhatchListPage, { metadata } from '@app/(pages)/whatch-list/page'
 
 jest.mock('@utils/movieOnWhatchList')
 jest.mock('@app/hooks/pages/whatch-list')
@@ -60,5 +60,9 @@ describe('<WhatchListPage />', () => {
     fireEvent.click(remove_button)
 
     expect(deleteMovieFromWhatchList).toHaveBeenCalledWith(fakeMoviesResponse.id)
+  })
+
+  it('ensures that the title of page render correctly', () => {
+    expect(metadata).toHaveProperty('title', '| Lista de favoritos')
   })
 })
