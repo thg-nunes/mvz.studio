@@ -1,8 +1,10 @@
+import { notFound } from 'next/navigation'
 import { waitFor } from '@testing-library/react'
 
 import { apiService } from '@app/services/api'
 import { useFetchTVSerieDetails } from '@app/hooks/pages/detalhes/tv/serie_id'
 
+jest.mock('next/navigation')
 jest.mock('@app/services/api')
 
 describe('@app/hooks/pages/detalhes/tv/serie_id', () => {
@@ -46,5 +48,31 @@ describe('@app/hooks/pages/detalhes/tv/serie_id', () => {
     )
 
     await waitFor(() => expect(serieDetails).toEqual(fake_tv_show_details))
+  })
+
+  it('ensures that the notFound function is called when a not valid tv serie id is provided', async () => {
+    const fake_tv_serie_id = '123'
+    const fake_serie_images_paths = [
+      {
+        file_path: 'fake_file_path1',
+      },
+      {
+        file_path: 'fake_file_path2',
+      },
+      {
+        file_path: 'fake_file_path3',
+      },
+    ]
+    const fake_tv_show_details = null
+
+    apiService.fetchTvShowDetails = jest.fn().mockResolvedValueOnce(fake_tv_show_details)
+
+    jest.mocked(apiService.fetchTvShowImages).mockResolvedValueOnce({
+      backdrops: fake_serie_images_paths,
+    })
+
+    await useFetchTVSerieDetails(fake_tv_serie_id)
+
+    await waitFor(() => expect(notFound).toHaveBeenCalled())
   })
 })
