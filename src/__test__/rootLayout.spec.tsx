@@ -1,4 +1,4 @@
-import RootLayout from '@app/layout'
+import RootLayout, { metadata } from '@app/layout'
 import { render, screen } from '@testing-library/react'
 
 describe('<RootLayout />', () => {
@@ -27,5 +27,12 @@ describe('<RootLayout />', () => {
         )
       })
     ).toBeInTheDocument()
+  })
+
+  it('ensures that the global metadata returns the correct data', () => {
+    expect(metadata).toHaveProperty('title', {
+      template: 'MVZ.studio %s',
+      default: 'MVZ.studio',
+    })
   })
 })
