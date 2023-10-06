@@ -26,7 +26,7 @@ export const useFetchSimilarTVSeries = async (
   const similarTvSeries = await apiService.fetchSimilarTvShow(tv_serie_id)
 
   if (!similarTvSeries) {
-    notFound()
+    return notFound()
   }
 
   const listUpdated = similarTvSeries.map((serie) => {

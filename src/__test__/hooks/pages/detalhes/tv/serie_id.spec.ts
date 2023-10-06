@@ -2,7 +2,10 @@ import { notFound } from 'next/navigation'
 import { waitFor } from '@testing-library/react'
 
 import { apiService } from '@app/services/api'
-import { useFetchTVSerieDetails } from '@app/hooks/pages/detalhes/tv/serie_id'
+import {
+  useFetchSimilarTVSeries,
+  useFetchTVSerieDetails,
+} from '@app/hooks/pages/detalhes/tv/serie_id'
 
 jest.mock('next/navigation')
 jest.mock('@app/services/api')
@@ -72,6 +75,21 @@ describe('@app/hooks/pages/detalhes/tv/serie_id', () => {
     })
 
     await useFetchTVSerieDetails(fake_tv_serie_id)
+
+    await waitFor(() => expect(notFound).toHaveBeenCalled())
+  })
+
+  it('ensures that the notFound function is called when a not valid tv serie id is provided to fetch similar series', async () => {
+    const fake_tv_serie_id = '123'
+    const fake_tv_show_details = null
+
+    apiService.fetchSimilarTvShow = jest.fn().mockResolvedValueOnce(fake_tv_show_details)
+
+    await useFetchSimilarTVSeries(fake_tv_serie_id)
+
+    await waitFor(() =>
+      expect(apiService.fetchSimilarTvShow).toHaveBeenCalledWith(fake_tv_serie_id)
+    )
 
     await waitFor(() => expect(notFound).toHaveBeenCalled())
   })
