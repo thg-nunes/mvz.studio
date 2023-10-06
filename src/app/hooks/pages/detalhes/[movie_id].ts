@@ -12,7 +12,7 @@ export const useFetchMovieDetails = async (
     notFound()
   }
 
-  const movieVideoKey = results[0].key
+  const movieVideoKey = results[0]?.key
 
   const movieDetails = await apiService.fetchMovieDetailsById(movie_id)
   movieDetails.release_date = new Date(movieDetails.release_date).toLocaleDateString()
