@@ -118,4 +118,26 @@ describe('@app/hooks/pages/detalhes/tv/serie_id', () => {
 
     await waitFor(() => expect(similarTvSeries[0].vote_average).toEqual(88))
   })
+
+  it('ensures that the hook useFetchSimilarTVSeries returns default value to first_air_date if null', async () => {
+    const default_air_date_value = 'sem data'
+    const fake_tv_serie_id = '123'
+    const fake_tv_show_similar = {
+      backdrop_path: 'fake_backdrop_path',
+      id: 1,
+      first_air_date: '',
+      vote_average: 8.8,
+      name: 'large_serie_name',
+    }
+
+    jest
+      .mocked(apiService.fetchSimilarTvShow)
+      .mockResolvedValueOnce([fake_tv_show_similar])
+
+    const { similarTvSeries } = await useFetchSimilarTVSeries(fake_tv_serie_id)
+
+    await waitFor(() =>
+      expect(similarTvSeries[0].first_air_date).toEqual(default_air_date_value)
+    )
+  })
 })
