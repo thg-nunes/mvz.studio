@@ -93,4 +93,29 @@ describe('@app/hooks/pages/detalhes/tv/serie_id', () => {
 
     await waitFor(() => expect(notFound).toHaveBeenCalled())
   })
+
+  it('ensures that the hook useFetchSimilarTVSeries returns the correct data if a valid tv serie id is provided', async () => {
+    const fake_tv_serie_id = '123'
+    const fake_tv_show_similar = {
+      backdrop_path: 'fake_backdrop_path',
+      id: 1,
+      first_air_date: '2018-09-20',
+      vote_average: 8.8,
+      name: 'large_serie_name',
+    }
+
+    jest
+      .mocked(apiService.fetchSimilarTvShow)
+      .mockResolvedValueOnce([fake_tv_show_similar])
+
+    const { similarTvSeries } = await useFetchSimilarTVSeries(fake_tv_serie_id)
+
+    await waitFor(() =>
+      expect(similarTvSeries[0].name).toEqual(
+        similarTvSeries[0].name.slice(0, 10) + '...'
+      )
+    )
+
+    await waitFor(() => expect(similarTvSeries[0].vote_average).toEqual(88))
+  })
 })
