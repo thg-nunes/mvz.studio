@@ -10,12 +10,12 @@ export const useFetchTVSerieDetails = async (
   const { backdrops: serieImages } = await apiService.fetchTvShowImages(tv_serie_id)
 
   if (!serieDetails) {
-    notFound()
+    return notFound()
   }
 
-  serieDetails.last_air_date = new Date(serieDetails.last_air_date).toLocaleDateString()
-  serieDetails.vote_count = parseInt(serieDetails.vote_count.toFixed(0))
-  serieDetails.vote_average = parseInt(serieDetails.vote_average.toFixed(0)) * 10
+  serieDetails.last_air_date = new Date(serieDetails.last_air_date)?.toLocaleDateString()
+  serieDetails.vote_count = parseInt(serieDetails.vote_count?.toFixed(0))
+  serieDetails.vote_average = parseInt(serieDetails.vote_average?.toFixed(0)) * 10
 
   return { serieDetails, serieImages }
 }
