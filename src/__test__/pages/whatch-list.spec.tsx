@@ -1,9 +1,11 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
+import { deleteMovieFromWhatchList } from '@utils/movieOnWhatchList'
 import { useGetMoviesById } from '@app/hooks/pages/whatch-list'
 
 import WhatchListPage from '@app/(pages)/whatch-list/page'
 
+jest.mock('@utils/movieOnWhatchList')
 jest.mock('@app/hooks/pages/whatch-list')
 
 describe('<WhatchListPage />', () => {
@@ -41,5 +43,22 @@ describe('<WhatchListPage />', () => {
     expect(screen.getByText(fakeMoviesResponse.overview)).toBeInTheDocument()
     expect(screen.getByText(fakeMoviesResponse.release_date)).toBeInTheDocument()
     expect(screen.getByText(`${fakeMoviesResponse.runtime} min`)).toBeInTheDocument()
+  })
+
+  it('ensures that the function to remove one movie of watch-list execute on click in the button', () => {
+    jest.mocked(useGetMoviesById).mockReturnValue([fakeMoviesResponse])
+
+    render(<WhatchListPage />)
+
+    const remove_button = screen.getByText((content, element) => {
+      return (
+        element?.tagName.toLowerCase() === 'button' &&
+        content.startsWith('remover da lista')
+      )
+    })
+
+    fireEvent.click(remove_button)
+
+    expect(deleteMovieFromWhatchList).toHaveBeenCalledWith(fakeMoviesResponse.id)
   })
 })
