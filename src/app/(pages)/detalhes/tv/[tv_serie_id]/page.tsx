@@ -82,7 +82,6 @@ export default async function TvSerieDetailsById({ params }: PageParams) {
           </div>
         </section>
 
-        {/* LINK DA PAGINA DE MAIS TEMPORADAS, SEGUIR O MODELO: https://www.themoviedb.org/tv/1416-grey-s-anatomy/seasons?language=pt-BR */}
         <Link
           href={`/detalhes/tv/temporadas/${serieDetails.id}`}
           className="text-white duration-150 hover:text-gray-400"
