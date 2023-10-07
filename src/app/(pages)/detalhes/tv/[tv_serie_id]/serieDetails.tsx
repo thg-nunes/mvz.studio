@@ -4,8 +4,13 @@ import { TVSerieDetails } from '@dtos/movie'
 import { returnsMovieImageURL } from '@utils/movieImage'
 import { addMovieOnWhatchList } from '@utils/movieOnWhatchList'
 
+type SerieData = Pick<
+  TVSerieDetails,
+  'name' | 'genres' | 'vote_average' | 'id' | 'overview' | 'created_by'
+>
+
 export type SerieDetailsProps = {
-  serieData: TVSerieDetails
+  serieData: SerieData
 }
 
 export const SerieDetails = ({ serieData }: SerieDetailsProps): JSX.Element => {
@@ -16,7 +21,7 @@ export const SerieDetails = ({ serieData }: SerieDetailsProps): JSX.Element => {
         <div className="flex items-center gap-2">
           {serieData.genres.map(({ id, name }, index) => (
             <span key={id} className="text-sm">
-              {index > 0 || index < serieData.genres.length ? `${name}` : `${name}, `}
+              {index + 1 < serieData.genres.length ? `${name} | ` : `${name}`}
             </span>
           ))}
         </div>
