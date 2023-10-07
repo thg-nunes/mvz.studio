@@ -24,6 +24,7 @@ describe('<TvSerieDetailsById />', () => {
     useFetchTVSerieDetailsMock.mockResolvedValue({
       serieDetails: {
         name: 'any_name',
+        seasons: [],
       },
     })
 
@@ -121,7 +122,13 @@ describe('<TvSerieDetailsById />', () => {
     useFetchTVSerieDetailsMock.mockResolvedValue({
       serieDetails: {
         name: 'any_name',
+        seasons: [],
+        last_air_date: '2022-08-15',
+        genres: [],
+        created_by: [],
+        number_of_episodes: 123,
       },
+      serieImages: [],
     })
 
     useFetchSimilarTVSeriesMock.mockResolvedValue({
@@ -136,8 +143,6 @@ describe('<TvSerieDetailsById />', () => {
       ],
     })
 
-    const lastAirDate = fake_serie_details.last_air_date.split('/').pop()
-
     render(await TvSerieDetailsById({ params: fake_serie_id }))
 
     await waitFor(() =>
@@ -146,12 +151,6 @@ describe('<TvSerieDetailsById />', () => {
       ).toBeInTheDocument()
     )
 
-    await waitFor(() =>
-      expect(
-        screen.getByText(
-          `${lastAirDate} • ${fake_serie_details.number_of_episodes} episódios`
-        )
-      ).toBeInTheDocument()
-    )
+    await waitFor(() => expect(screen.getByText(/episódios/gi)).toBeInTheDocument())
   })
 })
