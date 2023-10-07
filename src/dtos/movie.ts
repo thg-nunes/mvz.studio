@@ -75,8 +75,8 @@ export type TVSerieDetails = Pick<
   next_episode_to_air: {
     id: number
     name: string
-    overview: ''
-    air_date: '2023-09-29'
+    overview: string
+    air_date: Date
     episode_number: number
     episode_type: string
     runtime: number
