@@ -21,10 +21,16 @@ export const useFetchTVSeasonDetails = async (
   seasonDetails.vote_average = parseFloat(seasonDetails.vote_average.toFixed(1))
 
   seasonDetails.episodes = seasonDetails.episodes.map((ep) => {
-    const [year, month, day] = ep.air_date.split('-')
-    const _year = parseInt(year)
-    const _month = parseInt(month)
-    const _day = parseInt(day)
+    let _year = 0
+    let _month = 0
+    let _day = 0
+
+    if (ep.air_date) {
+      const [year, month, day] = ep.air_date.split('-')
+      _year = parseInt(year)
+      _month = parseInt(month)
+      _day = parseInt(day)
+    }
 
     ep.overview = ep.overview ? ep.overview : 'Este ep não contém um overview formado.'
 
