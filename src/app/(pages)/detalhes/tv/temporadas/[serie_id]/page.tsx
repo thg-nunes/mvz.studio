@@ -1,16 +1,35 @@
-import { useFetchSerieSeason } from '@app/hooks/pages/temporadas/[tv_serie_id]'
-import { returnsMovieImageURL } from '@utils/movieImage'
 import Link from 'next/link'
+import { Metadata } from 'next'
+
+import { returnsMovieImageURL } from '@utils/movieImage'
+
+import { useFetchTVSerieDetails } from '@app/hooks/pages/detalhes/tv/serie_id'
+import { useFetchSerieSeason } from '@app/hooks/pages/temporadas/[tv_serie_id]'
+
+type PageParams = {
+  params: { serie_id: string }
+}
+
+export const generateMetadata = async ({ params }: PageParams): Promise<Metadata> => {
+  /** como uma busca por dados da serie já terá sido feita, os dados já estarão em cache, então realizo uma busca para reaproveitar esses dados do cache, e renderizar o nome da série */
+  const { serieDetails } = await useFetchTVSerieDetails(params.serie_id)
+
+  return {
+    title: '| ' + serieDetails.name,
+  }
+}
 
 export default async function TVSerieSeasons({
   params,
-}: {
-  params: { serie_id: string }
-}): Promise<JSX.Element> {
+}: PageParams): Promise<JSX.Element> {
+  /** como uma busca por dados da serie já terá sido feita, os dados já estarão em cache, então realizo uma busca para reaproveitar esses dados do cache, e renderizar o nome da série */
+  const { serieDetails } = await useFetchTVSerieDetails(params.serie_id)
   const seasons = await useFetchSerieSeason(params.serie_id)
 
   return (
     <div className="mx-auto mb-10 flex w-[85%] flex-col gap-3 text-white">
+      <h2 className="my-5 text-2xl font-semibold">{serieDetails.name}</h2>
+
       {seasons.map((season) => (
         <section key={season.id} className="flex gap-3">
           <Link href={`/detalhes/tv/${params.serie_id}/season/${season.season_number}`}>
