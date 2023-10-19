@@ -18,9 +18,9 @@ export const useFetchTVSeasonDetails = async (
     notFound()
   }
 
-  seasonDetails.vote_average = parseFloat(seasonDetails.vote_average.toFixed(1))
+  seasonDetails.vote_average = parseFloat(seasonDetails.vote_average?.toFixed(1))
 
-  seasonDetails.episodes = seasonDetails.episodes.map((ep) => {
+  seasonDetails.episodes = seasonDetails.episodes?.map((ep) => {
     let _year = 0
     let _month = 0
     let _day = 0
