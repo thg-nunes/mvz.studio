@@ -1,44 +1,39 @@
 import { convertTvShowListToMovieDTOList } from '@utils/convertTvShowListToMovieDTOList'
 import { api_key, baseURL, fetchData } from './fetch-data-config'
 
-import {
-  CarouselMoviePropsDTO,
-  MovieDTO,
-  MovieDetailsDTO,
-  SerieSeasonsDTO,
-  SimilarTvShowCardDTO,
-  TVSeasonDetailsDTO,
-  TVSerieDetails,
-  TVSerieImaesDTO,
-  TopRatedTVShowsPropsDTO,
-} from '@dtos/movie'
+import * as DTOs from '@dtos/movie'
 import { SeasonDetailsPageParams } from '@app/(pages)/detalhes/tv/[tv_serie_id]/season/[season_number]/page'
 
 type ApiService = {
-  fetchCarouselMovies(): Promise<CarouselMoviePropsDTO[]>
-  fetchMoviesByGenre(data: { genreID: number; page: number }): Promise<MovieDTO[]>
-  fetchMovieDetailsById(movieId: string): Promise<MovieDetailsDTO>
+  fetchCarouselMovies(): Promise<DTOs.CarouselMoviePropsDTO[]>
+  fetchMoviesByGenre(data: { genreID: number; page: number }): Promise<DTOs.MovieDTO[]>
+  fetchMovieDetailsById(movieId: string): Promise<DTOs.MovieDetailsDTO>
   fetchMovieVideoById(movieId: string): Promise<{ results: { key: string }[] }>
-  fetchMoviesById(moviesId: number[]): Promise<{ results: MovieDetailsDTO[] }>
-  fetchPopularMovies(): Promise<{ results: MovieDTO[] }>
-  fetchTopRatedTvShows(): Promise<{ results: MovieDTO[] }>
-  fetchDebutTvShows(): Promise<{ results: MovieDTO[] }>
-  fetchTvShowDetails(tvSerieId: string): Promise<TVSerieDetails>
-  fetchSimilarTvShow(tvSerieId: string): Promise<SimilarTvShowCardDTO[]>
-  fetchTvShowImages(tvSerieId: string): Promise<{ backdrops: TVSerieImaesDTO }>
-  fetchSerieSeason(season_number: string): Promise<SerieSeasonsDTO[]>
-  fetchTVSeasonDetails(data: SeasonDetailsPageParams): Promise<TVSeasonDetailsDTO>
+  fetchMoviesById(moviesId: number[]): Promise<{ results: DTOs.MovieDetailsDTO[] }>
+  fetchPopularMovies(): Promise<{ results: DTOs.MovieDTO[] }>
+  fetchTopRatedTvShows(): Promise<{ results: DTOs.MovieDTO[] }>
+  fetchDebutTvShows(): Promise<{ results: DTOs.MovieDTO[] }>
+  fetchTvShowDetails(tvSerieId: string): Promise<DTOs.TVSerieDetails>
+  fetchSimilarTvShow(tvSerieId: string): Promise<DTOs.SimilarTvShowCardDTO[]>
+  fetchTvShowImages(tvSerieId: string): Promise<{ backdrops: DTOs.TVSerieImaesDTO }>
+  fetchSerieSeason(season_number: string): Promise<DTOs.SerieSeasonsDTO[]>
+  fetchTVSeasonEpisodeDetails(params: {
+    episode_number: string
+    tv_serie_id: string
+    season_number: string
+  }): Promise<DTOs.SeasonEpisodeDetailsDTO>
+  fetchTVSeasonDetails(data: SeasonDetailsPageParams): Promise<DTOs.TVSeasonDetailsDTO>
 }
 
 const apiService: ApiService = {
-  fetchCarouselMovies: async function (): Promise<CarouselMoviePropsDTO[]> {
-    const { results } = await fetchData<{ results: MovieDTO[] }>('/discover/movie', {
+  fetchCarouselMovies: async function (): Promise<DTOs.CarouselMoviePropsDTO[]> {
+    const { results } = await fetchData<{ results: DTOs.MovieDTO[] }>('/discover/movie', {
       next: {
         revalidate: 60 * 60 * 24 * 3, // 3 days
       },
     })
 
-    const movieCarouselList: CarouselMoviePropsDTO[] = results
+    const movieCarouselList: DTOs.CarouselMoviePropsDTO[] = results
       .slice(0, 5)
       .map(({ id, title, poster_path, overview }) => {
         return {
@@ -57,8 +52,8 @@ const apiService: ApiService = {
   }: {
     genreID: number
     page: number
-  }): Promise<MovieDTO[]> {
-    const { results } = await fetchData<{ results: MovieDTO[] }>(
+  }): Promise<DTOs.MovieDTO[]> {
+    const { results } = await fetchData<{ results: DTOs.MovieDTO[] }>(
       `/discover/movie`,
       {
         next: {
@@ -70,8 +65,8 @@ const apiService: ApiService = {
 
     return results
   },
-  fetchMovieDetailsById: async function (movieId: string): Promise<MovieDetailsDTO> {
-    const movieDetails = await fetchData<MovieDetailsDTO>(`/movie/${movieId}`, {
+  fetchMovieDetailsById: async function (movieId: string): Promise<DTOs.MovieDetailsDTO> {
+    const movieDetails = await fetchData<DTOs.MovieDetailsDTO>(`/movie/${movieId}`, {
       next: {
         revalidate: 60 * 60 * 24 * 3, // 3 days
       },
@@ -95,9 +90,9 @@ const apiService: ApiService = {
   },
   fetchMoviesById: async function (
     moviesId: number[]
-  ): Promise<{ results: MovieDetailsDTO[] }> {
+  ): Promise<{ results: DTOs.MovieDetailsDTO[] }> {
     const moviesRequestConfig = moviesId.map((id) => {
-      return fetchData<MovieDetailsDTO>(`/movie/${id}`, {
+      return fetchData<DTOs.MovieDetailsDTO>(`/movie/${id}`, {
         next: {
           revalidate: 60 * 60 * 24 * 3, // 3 days
         },
@@ -110,8 +105,8 @@ const apiService: ApiService = {
       results: response,
     }
   },
-  fetchPopularMovies: async function (): Promise<{ results: MovieDTO[] }> {
-    const { results } = await fetchData<{ results: MovieDTO[] }>(`/movie/popular`, {
+  fetchPopularMovies: async function (): Promise<{ results: DTOs.MovieDTO[] }> {
+    const { results } = await fetchData<{ results: DTOs.MovieDTO[] }>(`/movie/popular`, {
       next: {
         revalidate: 60 * 60 * 24 * 3, // 3 days
       },
@@ -121,8 +116,8 @@ const apiService: ApiService = {
       results,
     }
   },
-  fetchTopRatedTvShows: async function (): Promise<{ results: MovieDTO[] }> {
-    const { results } = await fetchData<{ results: TopRatedTVShowsPropsDTO[] }>(
+  fetchTopRatedTvShows: async function (): Promise<{ results: DTOs.MovieDTO[] }> {
+    const { results } = await fetchData<{ results: DTOs.TopRatedTVShowsPropsDTO[] }>(
       `/tv/top_rated`,
       {
         next: {
@@ -137,8 +132,8 @@ const apiService: ApiService = {
       results: listUpdated,
     }
   },
-  fetchDebutTvShows: async function (): Promise<{ results: MovieDTO[] }> {
-    const { results } = await fetchData<{ results: TopRatedTVShowsPropsDTO[] }>(
+  fetchDebutTvShows: async function (): Promise<{ results: DTOs.MovieDTO[] }> {
+    const { results } = await fetchData<{ results: DTOs.TopRatedTVShowsPropsDTO[] }>(
       `/tv/airing_today`,
       {
         next: {
@@ -153,8 +148,8 @@ const apiService: ApiService = {
       results: listUpdated,
     }
   },
-  fetchTvShowDetails: async function (tvSerieId: string): Promise<TVSerieDetails> {
-    const movieDetails = await fetchData<TVSerieDetails>(`/tv/${tvSerieId}`, {
+  fetchTvShowDetails: async function (tvSerieId: string): Promise<DTOs.TVSerieDetails> {
+    const movieDetails = await fetchData<DTOs.TVSerieDetails>(`/tv/${tvSerieId}`, {
       next: {
         revalidate: 60 * 60 * 24 * 3, // 3 days
       },
@@ -164,8 +159,8 @@ const apiService: ApiService = {
   },
   fetchSimilarTvShow: async function (
     tvSerieId: string
-  ): Promise<SimilarTvShowCardDTO[]> {
-    const { results } = await fetchData<{ results: SimilarTvShowCardDTO[] }>(
+  ): Promise<DTOs.SimilarTvShowCardDTO[]> {
+    const { results } = await fetchData<{ results: DTOs.SimilarTvShowCardDTO[] }>(
       `/tv/${tvSerieId}/similar`,
       {
         next: {
@@ -178,7 +173,7 @@ const apiService: ApiService = {
   },
   fetchTvShowImages: async function (
     tvSerieId: string
-  ): Promise<{ backdrops: TVSerieImaesDTO }> {
+  ): Promise<{ backdrops: DTOs.TVSerieImaesDTO }> {
     const response = await fetch(
       `${baseURL}/tv/${tvSerieId}/images?&api_key=${api_key}`,
       {
@@ -187,12 +182,12 @@ const apiService: ApiService = {
         },
       }
     )
-    const data: { backdrops: TVSerieImaesDTO } = await response.json()
+    const data: { backdrops: DTOs.TVSerieImaesDTO } = await response.json()
 
     return data
   },
-  fetchSerieSeason: async function (serie_id: string): Promise<SerieSeasonsDTO[]> {
-    const { seasons } = await fetchData<{ seasons: SerieSeasonsDTO[] }>(
+  fetchSerieSeason: async function (serie_id: string): Promise<DTOs.SerieSeasonsDTO[]> {
+    const { seasons } = await fetchData<{ seasons: DTOs.SerieSeasonsDTO[] }>(
       `/tv/${serie_id}`,
       {
         next: {
@@ -206,9 +201,25 @@ const apiService: ApiService = {
   },
   fetchTVSeasonDetails: async function ({
     params: { season_number, tv_serie_id },
-  }: SeasonDetailsPageParams): Promise<TVSeasonDetailsDTO> {
-    const response = await fetchData<TVSeasonDetailsDTO>(
+  }: SeasonDetailsPageParams): Promise<DTOs.TVSeasonDetailsDTO> {
+    const response = await fetchData<DTOs.TVSeasonDetailsDTO>(
       `/tv/${tv_serie_id}/season/${season_number}`,
+      {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      }
+    )
+
+    return response
+  },
+  fetchTVSeasonEpisodeDetails: async function (params: {
+    episode_number: string
+    tv_serie_id: string
+    season_number: string
+  }): Promise<DTOs.SeasonEpisodeDetailsDTO> {
+    const response = await fetchData<DTOs.SeasonEpisodeDetailsDTO>(
+      `/tv/${params.tv_serie_id}/season/${params.season_number}/episode/${params.episode_number}`,
       {
         next: {
           revalidate: 60 * 60 * 24 * 3, // 3 days

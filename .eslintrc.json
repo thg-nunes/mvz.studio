@@ -23,6 +23,7 @@
     "no-useless-catch": "off",
     "react/react-in-jsx-scope": "off",
     "tailwindcss/migration-from-tailwind-2": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-empty-function": "off"
   },

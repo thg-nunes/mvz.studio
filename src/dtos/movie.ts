@@ -117,6 +117,32 @@ export type SerieSeasonsDTO = {
   vote_average: number
 }
 
+export type SeasonEpisodeDetailsDTO = Pick<
+  SerieSeasonsDTO,
+  'air_date' | 'id' | 'name' | 'overview' | 'season_number'
+> & {
+  guest_stars: unknown[]
+  episode_number: 892
+  crew: {
+    job: string
+    department: string
+    credit_id: string
+    adult: boolean
+    gender: number
+    id: number
+    known_for_department: string
+    name: string
+    original_name: string
+    popularity: number
+    profile_path: null
+  }[]
+  production_code: string
+  runtime: number
+  still_path: string
+  vote_average: number
+  vote_counte: number
+}
+
 export type TVSerieImaesDTO = {
   file_path: string
 }[]
