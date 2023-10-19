@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Metadata } from 'next'
 
 import { returnsMovieImageURL } from '@utils/movieImage'
@@ -48,16 +49,20 @@ export default async function SeasonDetails({
         </section>
       </div>
       {seasonDetails.episodes?.map((ep) => (
-        <EpisodeDetails
+        <Link
           key={ep.name}
-          air_date={ep.air_date}
-          episode_number={ep.episode_number}
-          name={ep.name}
-          overview={ep.overview}
-          poster_path={ep.still_path}
-          runtime={ep.runtime}
-          vote_average={ep.vote_average}
-        />
+          href={`/detalhes/tv/${params.tv_serie_id}/season/${params.season_number}/episode/${ep.episode_number}`}
+        >
+          <EpisodeDetails
+            air_date={ep.air_date}
+            episode_number={ep.episode_number}
+            name={ep.name}
+            overview={ep.overview}
+            poster_path={ep.still_path}
+            runtime={ep.runtime}
+            vote_average={ep.vote_average}
+          />
+        </Link>
       ))}
     </div>
   )
