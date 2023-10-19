@@ -7,7 +7,7 @@ import { useFetchTVSeasonDetails } from '@app/hooks/pages/detalhes/tv/season-det
 jest.mock('next/navigation')
 jest.mock('@app/services/api')
 
-describe('', () => {
+describe('useFetchTVSeasonDetails', () => {
   it('ensures that the notFound function is called if the fetch of one season details not returns data', async () => {
     const fake_params = {
       params: {
@@ -43,6 +43,10 @@ describe('', () => {
     }
 
     global.fetch = jest.fn()
+
+    jest.mocked(apiService.fetchTvShowImages).mockResolvedValue({
+      backdrops: [],
+    })
 
     jest.mocked(apiService.fetchTVSeasonDetails).mockResolvedValue({
       air_date: '2020-08-20',

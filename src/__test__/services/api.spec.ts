@@ -425,4 +425,58 @@ describe('apiService', () => {
     )
     await waitFor(() => expect(response).toEqual(fake_response))
   })
+
+  it('Ensures that the service to get the details of one episode of one season serie execute with the correct endpoint', async () => {
+    const season_number = '1'
+    const episode_number = '123'
+    const fake_response = {
+      air_date: '2019-07-07',
+      id: 1817016,
+      episode_number: 892,
+      name: 'Wano, o País dos Samurais Onde Flutuam as Pétalas de Cerejeira!',
+      overview:
+        'Os Chapéus de Palha finalmente se reúnem no País de Wano! Formidáveis inimigos os aguardam nesta terra de guerreiros onde nem a Marinha ousa pisar! Uma batalha sem precedentes começa agora!',
+      season_number: 21,
+      guest_stars: [],
+      crew: [
+        {
+          job: 'Key Animation',
+          department: 'Visual Effects',
+          credit_id: '6069cc340c3ec800409a2b28',
+          adult: false,
+          gender: 0,
+          id: 2896194,
+          known_for_department: 'Visual Effects',
+          name: 'Tu Yong-ce',
+          original_name: 'Tu Yong-ce',
+          popularity: 0.98,
+          profile_path: null,
+        },
+      ],
+      production_code: '892',
+      runtime: 24,
+      still_path: '/9oB1yvaCs1t6TCxcdYvYHNcobpt.jpg',
+      vote_average: 9.3,
+      vote_count: 3,
+    }
+
+    fetchDataMock.mockImplementationOnce(() => Promise.resolve(fake_response))
+
+    const fakeId = '123'
+    const endpoint = `/tv/${fakeId}/season/${season_number}/episode/${episode_number}`
+    const response = await apiService.fetchTVSeasonEpisodeDetails({
+      season_number,
+      tv_serie_id: fakeId,
+      episode_number,
+    })
+
+    await waitFor(() =>
+      expect(fetchDataMock).toHaveBeenCalledWith(endpoint, {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      })
+    )
+    await waitFor(() => expect(response).toEqual(fake_response))
+  })
 })
