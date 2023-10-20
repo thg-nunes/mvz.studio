@@ -1,7 +1,11 @@
 import { waitFor } from '@testing-library/react'
 
 import { myToast } from '@utils/toast-config'
-import { addMovieOnWhatchList, deleteMovieFromWhatchList } from '@utils/movieOnWhatchList'
+import {
+  addMovieOnWhatchList,
+  deleteMovieFromWhatchList,
+  getMoviesFromStorage,
+} from '@utils/movieOnWhatchList'
 
 jest.mock('@utils/toast-config')
 
@@ -62,5 +66,15 @@ describe('@utils/movieOnWhatchList functions', () => {
     })
 
     waitFor(() => expect(window.location.reload).toHaveBeenCalled())
+  })
+
+  it('Ensures that one array empty is return if not exists movie id saved in storage', () => {
+    const getItemMock = jest.fn()
+
+    Storage.prototype.getItem = getItemMock.mockReturnValueOnce(null)
+
+    const moviesIdList = getMoviesFromStorage()
+
+    expect(moviesIdList.length).toEqual(0)
   })
 })
