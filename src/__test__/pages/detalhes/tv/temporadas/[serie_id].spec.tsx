@@ -35,8 +35,6 @@ describe('<TVSerieSeasons />', () => {
       json: jest.fn().mockResolvedValue([fake_season_response]),
     })
 
-    // CONTINUAR OS TESTES PARA AS PAGINAS DE: TVSerieSeasons
-    // CONTINUAR OS TESTES PARA OS HOOKS DE: useFetchTVSeasonDetails
     jest.mocked(useFetchSerieSeason).mockResolvedValueOnce([fake_season_response])
 
     render(await TVSerieSeasons({ params: fake_serie_season }))

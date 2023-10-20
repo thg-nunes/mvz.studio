@@ -63,4 +63,91 @@ describe('useFetchTVSeasonDetails', () => {
 
     await waitFor(() => expect(notFound).not.toHaveBeenCalled())
   })
+
+  it('ensures that notfound function is called if datails of season is not found', async () => {
+    const fake_params = {
+      params: {
+        tv_serie_id: '1',
+        season_number: '22',
+      },
+    }
+
+    global.fetch = jest.fn()
+
+    jest.mocked(apiService.fetchTvShowImages).mockResolvedValue({
+      backdrops: [],
+    })
+
+    jest.mocked(apiService.fetchTVSeasonDetails).mockResolvedValue({} as any)
+
+    await useFetchTVSeasonDetails(fake_params)
+
+    await waitFor(() => expect(notFound).toHaveBeenCalled())
+  })
+
+  it('ensures that the hook returns data correct', async () => {
+    const fake_params = {
+      params: {
+        tv_serie_id: '1',
+        season_number: '22',
+      },
+    }
+
+    global.fetch = jest.fn()
+
+    jest.mocked(apiService.fetchTvShowImages).mockResolvedValue({
+      backdrops: [],
+    })
+
+    jest.mocked(apiService.fetchTVSeasonDetails).mockResolvedValue({
+      episodes: [
+        {
+          air_date: '2015-08-22',
+          overview: 'fake overview',
+        },
+      ],
+    } as any)
+
+    const { seasonDetails } = await useFetchTVSeasonDetails(fake_params)
+
+    await waitFor(() =>
+      expect(seasonDetails.episodes[0].overview).toEqual('fake overview')
+    )
+
+    await waitFor(() =>
+      expect(seasonDetails.episodes[0].air_date).toContain('de setembro 2015')
+    )
+  })
+
+  it('ensures that the hook returns one default message if overview does not exists', async () => {
+    const fake_params = {
+      params: {
+        tv_serie_id: '1',
+        season_number: '22',
+      },
+    }
+
+    global.fetch = jest.fn()
+
+    jest.mocked(apiService.fetchTvShowImages).mockResolvedValue({
+      backdrops: [],
+    })
+
+    jest.mocked(apiService.fetchTVSeasonDetails).mockResolvedValue({
+      episodes: [
+        {
+          air_date: '2015-08-22',
+          overview: '',
+        },
+      ],
+    } as any)
+
+    const { seasonDetails } = await useFetchTVSeasonDetails(fake_params)
+
+    await waitFor(() =>
+      expect(seasonDetails.episodes[0].overview).toEqual(
+        'Este ep não contém um overview formado.'
+      )
+    )
+  })
 })
