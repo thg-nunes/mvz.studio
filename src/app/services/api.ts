@@ -17,11 +17,12 @@ type ApiService = {
   fetchSimilarTvShow(tvSerieId: string): Promise<DTOs.SimilarTvShowCardDTO[]>
   fetchTvShowImages(tvSerieId: string): Promise<{ backdrops: DTOs.TVSerieImaesDTO }>
   fetchSerieSeason(season_number: string): Promise<DTOs.SerieSeasonsDTO[]>
-  fetchTVSeasonEpisodeDetails(params: {
-    episode_number: string
-    tv_serie_id: string
-    season_number: string
-  }): Promise<DTOs.SeasonEpisodeDetailsDTO>
+  fetchTVSeasonEpisodeDetails(
+    params: DTOs.TVSeasonEpisodeDetailsDTO
+  ): Promise<DTOs.SeasonEpisodeDetailsDTO>
+  fetchTVSeasonEpisodeImages(
+    params: DTOs.TVSeasonEpisodeDetailsDTO
+  ): Promise<DTOs.TVSeasonEpisodeImagesDTO>
   fetchTVSeasonDetails(data: SeasonDetailsPageParams): Promise<DTOs.TVSeasonDetailsDTO>
 }
 
@@ -213,13 +214,25 @@ const apiService: ApiService = {
 
     return response
   },
-  fetchTVSeasonEpisodeDetails: async function (params: {
-    episode_number: string
-    tv_serie_id: string
-    season_number: string
-  }): Promise<DTOs.SeasonEpisodeDetailsDTO> {
+  fetchTVSeasonEpisodeDetails: async function (
+    params: DTOs.TVSeasonEpisodeDetailsDTO
+  ): Promise<DTOs.SeasonEpisodeDetailsDTO> {
     const response = await fetchData<DTOs.SeasonEpisodeDetailsDTO>(
       `/tv/${params.tv_serie_id}/season/${params.season_number}/episode/${params.episode_number}`,
+      {
+        next: {
+          revalidate: 60 * 60 * 24 * 3, // 3 days
+        },
+      }
+    )
+
+    return response
+  },
+  fetchTVSeasonEpisodeImages: async function (
+    params: DTOs.TVSeasonEpisodeDetailsDTO
+  ): Promise<DTOs.TVSeasonEpisodeImagesDTO> {
+    const response = await fetchData<DTOs.TVSeasonEpisodeImagesDTO>(
+      `/tv/${params.tv_serie_id}/season/${params.season_number}/episode/${params.episode_number}/images`,
       {
         next: {
           revalidate: 60 * 60 * 24 * 3, // 3 days

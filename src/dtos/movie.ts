@@ -121,7 +121,12 @@ export type SeasonEpisodeDetailsDTO = Pick<
   SerieSeasonsDTO,
   'air_date' | 'id' | 'name' | 'overview' | 'season_number'
 > & {
-  guest_stars: unknown[]
+  guest_stars: {
+    id: number
+    name: string
+    character: string
+    profile_path?: string
+  }[]
   episode_number: 892
   crew: {
     job: string
@@ -162,5 +167,18 @@ export type TVSeasonDetailsDTO = Omit<SerieSeasonsDTO, 'episode_count'> & {
     still_path: string
     vote_average: number
     vote_count: number
+  }[]
+}
+
+export type TVSeasonEpisodeDetailsDTO = {
+  episode_number: string
+  tv_serie_id: string
+  season_number: string
+}
+
+export type TVSeasonEpisodeImagesDTO = {
+  id: number
+  stills: {
+    file_path: string
   }[]
 }
