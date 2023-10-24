@@ -6,7 +6,7 @@ import { BsArrowLeftCircleFill } from 'react-icons/bs'
 
 export default function MovieDetailsLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="w-[85%] bg-black">
+    <div className="w-[85%] bg-black">
       <div className="flex items-center justify-between px-10 py-4">
         <Link href="/home">
           <BsArrowLeftCircleFill className="text-2xl text-cyan-600 duration-200 hover:text-cyan-600/90" />
@@ -31,6 +31,6 @@ export default function MovieDetailsLayout({ children }: { children: ReactNode }
         </section>
       </div>
       {children}
-    </main>
+    </div>
   )
 }
